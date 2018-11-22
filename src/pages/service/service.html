@@ -1,0 +1,34 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title align="center" style=" width: calc(100% - 60px)"><img src="assets/images/home/logo1.png" alt="logo"  width="auto" style="display:inline-block" height="100px"></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="service-content">
+  <!--<page-title [title]="'Exclusive hot services'"></page-title>-->
+
+  <ion-searchbar placeholder="Search Services"
+  (ionInput)="getCategories($event)"></ion-searchbar>
+
+  <div class="icon-toggle">
+    <button ion-item clear small end width="40px" height="40px">
+      <img src="assets/icon/expand.png"/>
+    </button>
+  </div>
+
+  <ion-list>
+    <ion-item *ngFor="let item of items">
+      {{item}}
+    </ion-item>
+  </ion-list>
+
+  <div class="bl-content has-footer-space" padding>
+
+    <single-category *ngFor="let category of searchCategory; let i = index"
+     [category]="category" (onChangeState)="toggleContent(i)" [isOpen]="isOpen(i)"></single-category>
+  </div>
+
+</ion-content>
+<!--
+<appointment-footer></appointment-footer>
+-->

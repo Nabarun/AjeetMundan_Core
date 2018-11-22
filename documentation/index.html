@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href="bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="documentation.css">
+    <script src="js/jquery.js"></script>
+
+    <script src="js/jquery.scrollTo.js"></script>
+    <script src="js/jquery.easing.js"></script>
+    <script>document.createElement('section');var duration='500',easing='easeInQuart';</script>
+    <script src="js/script.js"></script>
+  </head>
+  <body>
+    <aside class="side" id="document_sidebar">
+      <p class="logo-test"><b>Studio Salon</b></p>
+      <ul id="document_nav">
+        <li><a href="#start">Start</a></li>
+        <li><a href="#overview">App Overview</a></li>
+        <li><a href="#what-ionic">What is Ionic Framework?</a></li>
+        <li><a href="#how-start">How do I start?</a></li>
+        <li><a href="#view-controller">Views & Controllers</a></li>
+        <li><a href="#javascripts-used">Page Structure</a></li>
+        <li><a href="#fontusage">Fonts and Colors</a></li>
+      </ul>
+
+    </aside>
+    <section class="main-wrapper">
+      <article class="head" id="start">
+        <h1>Salon Mobile App</h1>
+        <hr class="notop">
+        <p>
+          <ul>
+            <li>Created: 17th May 2017</li>
+            <li> By: 0effortthemes </li>
+            <li><a href="http://0effortthemes.com/">0effortthemes.com</a></li>
+          </ul>
+        </p>
+        <p>Thank you for your purchase! If you have any questions that you feel should have been in this document, please feel free to contact us through our <a href="http://0effortthemes.com/support">Support</a>. Thanks!</p>
+        <p>Also you'll need some knowledge of Ionic, Angular2, HTML, CSS/SASS to edit this app.</p>
+        <p>Version: 1.0.0</p>
+      </article>
+
+      <!-- THEME OVERVIEW -->
+      <article class="theme-overview" id="overview">
+        <h2>App Overview</h2>
+        <hr class="notop">
+
+        <p>Salon App is mainly a salon service application, which can be mainly used to list salon services and give users to book appoinment from mobile. <br>
+        The app is based on Ionic Framework and firebase which can build apps for both Android and IOS devcies.</p>
+
+        <p>Users can view list of services by category also can view,grab deal and book appointment</p>
+
+        <p>To use the template you have to be a little familiar with Ionic, Angular2, HMTL, CSS/SASS. If you are familiar with the mentioned technologies, you will not have too much difficulty customizing the app to suit your needs. This documentation covers some basics to help you get started with the customization process.</p>
+
+        <p>If you need any kind of detailed or specific help, we are always just an email away.</p>
+      </article>
+
+
+      <article class="what-ionic" id="what-ionic">
+        <h2>What is Ionic Framework?</h2>
+        <hr class="notop">
+
+        <p>Ionic is a powerful HTML5 native app development framework that helps you build native-feeling mobile apps all with web technologies like HTML, CSS, and Javascript.</p>
+
+        <p>Ionic is focused mainly on the look and feel, and UI interaction of your app. That means it is not a replacement for <a href="http://phonegap.com/">PhoneGap</a> or your favorite Javascript framework. Instead, Ionic simply fits in well with these projects in order to simplify one big part of your app: the front end. We recommend reading <a href="http://blog.ionic.io/where-does-the-ionic-framework-fit-in/">Where does the Ionic Framework fit in?</a> to get a good understanding of the framework's goals.</p>
+
+        <p>Ionic currently requires AngularJS in order to work at its full potential. While you can still use the CSS portion of the framework, you'll miss out on powerful UI interactions, gestures, animations, and other things.</p>
+
+        <p>To learn more about Ionic, please click <a href="http://ionicframework.com/">here</a>.</p>
+      </article>
+
+      <article class="how-start" id="how-start">
+        <h2>How do I start?</h2>
+        <hr class="notop">
+        <ol>
+          <li><a href="#ionic-framework">Instaling Ionic Framework</a></li>
+          <li><a href="#install-app">Install the app</a></li>
+          <li><a href="#build-app">Build Process and Test in Emulator</a></li>
+        </ol>
+        <br>
+
+        <div id="ionic-framework">
+          <h3>1. Installing Ionic Framework</h3>
+          <p>Please refer to the Ionic offical installation documentation in order to install Ionic and cordova on your machine: <a href="http://ionicframework.com/docs/guide/installation.html">http://ionicframework.com/docs/guide/installation.html</a></p>
+          <br>
+          <h5>Ionic Getting started guide</h5>
+          <p><a href="http://ionicframework.com/getting-started">ionicframework.com/getting-started</a></p>
+          <br>
+          <h5>Ionic Documentation</h5>
+          <p><a href="http://ionicframework.com/docs">ionicframework.com/docs</a></p>
+          <br>
+          <h5>Visit the Ionic Community Forum</h5>
+          <p><a href="http://forum.ionicframework.com">forum.ionicframework.com</a></p>
+        </div>
+
+        <br><br>
+        <div id="install-app">
+          <h3>2. Install the app</h3>
+          <p>After you have installed Ionic in your computer you are almost ready to start working on this app, but we need to install the app dependencies:</p>
+          <ol>
+            <li>Unzip the folder you have downloaded from Envato</li>
+            <li>Move the unzipped folder to your preferred path inside your computer</li>
+            <li>Open your terminal and go to your selected path</li>
+            <li>Run <span class="console-command">npm install</span> in order to install all the node modules required by the app</li>
+            <li>
+              <p>Go to <b>'src/app/config.ts'</b> file of the app root folder. This file contains firebase database cofiguration form where all the data is being fetched for this app.</p>
+              <p>You must add your own firebase project configuration. To add your configuration go to <a href="https://console.firebase.google.com"> firebase console</a>, Open your project > click on overview > <b>Add Firebase to your web app</b> after that you can see the configuration.</p>
+            </li>
+            <li>Run <span class="console-command">ionic serve</span> to start a local dev server and watch/compile Sass to CSS</li>
+            <li>To genarate resources run <span class="console-command">ionic resources</span>.</li>
+          </ol>
+
+        </div>
+
+        <br><br>
+
+        <div id="build-app">
+          <h3>3. Build Process</h3><br>
+          <h4>General Install Steps</h4>
+          <ol>
+            <li>Install homebrew and node js via <a href="http://www.johnpapa.net/how-to-use-npm-global-without-sudo-on-osx/" target="_blank">http://www.johnpapa.net/how-to-use-npm-global-without-sudo-on-osx/</a></li>
+            <li>Install NPM package Gulp: <span class="console-command">npm install -g gulp</span></li>
+          </ol><br>
+
+          <h4>Android Setup Steps</h4>
+          <ol>
+            <li>Install JDK 7
+              <ul>
+                <li>Download from <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html" target="_blank">http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html</a></li>
+                <li>After install from the terminal create ~/.bash_profile if it doesn’t already exist. You can use touch ~/.bash_profile to create the file.</li>
+                <li>Open the <b>'.bash_profile'</b> file you just created in any editor and add the following line:
+                  <p class="prettyprint">export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_72.jdk/Contents/Home</p>
+                </li>
+              </ul>
+            </li>
+
+
+
+            <li>Ant
+              <ul>
+                <li>Download from <a href="http://ant.apache.org/bindownload.cgi" target="_blank">http://ant.apache.org/bindownload.cgi</a></li>
+                <li>Unzip to /users/[Your Username]/Development/ into a apache-ant-1.9.4</li>
+                <li>Open ~/.bash_profile and add the following line:
+                  <p class="prettyprint">export ANT_HOME=/users/jpjames/Development/apache-ant-1.9.4</p>
+                </li>
+              </ul>
+            </li>
+
+            <li>Android SDK
+              <ul>
+                <li>Download from <a href="http://developer.android.com/sdk/index.html#Other" target="_blank">http://developer.android.com/sdk/index.html#Other</a></li>
+                <li>Unzip to /users/[Your username]/Development</li>
+                <li>Open ~/.bash_profile and add the following line:
+                  <p class="prettyprint">export PATH=${PATH}:/users/[Your UserName]/Development/android-sdk-macosx/tools:/users/[Your Username]/Development/android-sdk-macosx/platform-tools:${ANT_HOME}/bin</p>
+                </li>
+              </ul>
+            </li>
+
+            <li>Download correct Android API
+              <ul>
+                <li>in terminal type <span class="console-command">source ~/.bash_profile</span> to load the ~/.bash_profile changes.</li>
+                <li>type <span class="console-command">android</span> from terminal. If everything is working correct it will open up the Android SDK Manager.</li>
+                <li>Install API 22 with SDK Platforms and Arm Image checked</li>
+              </ul>
+            </li>
+
+            <li>Configure Android Emulator
+              <ul>
+                <li>In terminal type <span class="console-command">android avd</span>. If everything is working correct it will open up the Android AVD Manager.</li>
+                <li>Click the create button and add at least 1 device to emulate</li>
+              </ul>
+            </li>
+          </ol><br><br>
+
+          <h4>iOS Setup Steps</h4>
+          <ol>
+            <li>Install <a href="https://developer.apple.com/xcode/" target="_blank">Xcode</a> from app store. <br>Once install is completed, open xcode and accept the license</li>
+            <li>Install the IOS Simulator that Ionic will use:
+              <p class="prettyprint">npm install -g ios-sim</p>
+            </li>
+          </ol><br><br>
+
+          <h4>Verifying that everything works</h4>
+          <ol>
+            <li>Open terminal</li>
+            <li>Navigate to the directory where you have saved the app project</li>
+            <li>Type into the terminal:
+              <span class="console-command">ionic info</span>
+              <ul>
+                <li>It will show you the status of all the components required for ionic setup and build processes.</li>
+                <li>If there are any components missing, it will display that missing component and will also mention how to install that component.</li>
+              </ul>
+            </li>
+            <li>Type into the terminal: <span class="console-command">ionic cordova platform add android</span></li>
+            <li>Type into the terminal: <span class="console-command">ionic cordova platform add ios</span></li>
+            <li>Copy all dir in resources/ic_notification and place in platform/android/res</li>
+            <li>Type into the terminal: <span class="console-command">ionic cordova build android</span></li>
+            <li>Type into the terminal: <span class="console-command">ionic cordova build ios</span></li>
+            <li>If running on a device run the command: <span class="console-comaand">ionic cordova run android</span> (for Android device)</li>
+            <li>If running on a device run the command: <span class="console-comaand">ionic cordova run ios</span> (for iOS device)</li>
+          </ol>
+        </div>
+      </article>
+
+
+      <!-- VIEWS & CONTROLLERS -->
+      <article id="view-controller">
+        <h2>Views and Controllers</h2>
+        <hr class="notop">
+        <p>If you take a look at the file structure overview in the previous section above, you will notice that the files of the different views/pages of the app are located in the path <b>'src/pages'</b> directory of the project root folder.</p>
+        <p>The respective controllers of those views/pages are located in the same directory.</p>
+        <p>All routes of the pages are available in <b>'src/app/app.component.ts'</b> file of the project root folder.</p>
+
+        <p>The syntax of the link is like :</p>
+        <pre class="prettyprint linenums">
+
+import { Component, ViewChild } from '@angular/core';
+import { Platform, MenuController, Nav } from 'ionic-angular';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
+
+import { PageService } from "../pages/page/page.service";
+import { PageModel } from "../pages/page/page.model";
+import { PushService } from './push.service';
+
+@Component({
+  templateUrl: 'app.html',
+  providers: [StatusBar, SplashScreen]
+})
+export class MyApp {
+  @ViewChild(Nav) nav: Nav;
+
+  rootPage: any = 'home';
+  pages: Array<{ title: string, component: any, icon: string, id?: string }>;
+  activeMenu: string;
+  currentMenu: string;
+  pageList: Array<PageModel>;
+
+  constructor(
+    public platform: Platform,
+    public menu: MenuController,
+    private statusBar: StatusBar,
+    private splashScreen: SplashScreen,
+    public pageDb: PageService,
+    private pushservice: PushService
+  ) {
+    this.initializeApp();
+
+    this.pages = [
+      { title: 'Home', component: 'home', icon: "std-icon-hairdresser-chair-1" },
+      { title: 'Appointment', component: 'appointment', icon: "std-icon-calendar" },
+      { title: 'Deals/Offers', component: 'deals', icon: "std-icon-perfume" },
+      { title: 'Specialist', component: 'team', icon: "std-icon-male-hair" },
+      { title: 'ServicePage', component: 'service', icon: "std-icon-barber" }
+    ];
+
+    if(this.platform.is('cordova')) {
+      this.pushservice.pushInt();
+    }
+  }
+
+  initializeApp() {
+    this.platform.ready().then(() => {
+      this.statusBar.styleDefault();
+      this.splashScreen.hide();
+    });
+    this.listPages();
+  }
+
+  listPages() {
+    this.pageDb.all().subscribe(res => {
+      this.pageList = res;
+    })
+  }
+
+  openPage(page) {
+    this.menu.close();
+      this.nav.push(page.component);
+  }
+  openStaticPage(page) {
+    this.menu.close();
+      this.nav.push('page', { id: page })
+  }
+}
+
+</pre>
+      </article>
+
+
+
+      <!-- JAVASCRIPT -->
+      <article class="javascript" id="javascripts-used">
+        <h2>Page Structure</h2>
+        <hr class="notop">
+        <p>There are a few types of typescripts used in this app:</p>
+        <ul>
+          <li><a href="#controller-js">Component</a></li>
+          <li><a href="#service-js">Service</a></li>
+          <li><a href="#app-js">Module</a></li>
+          <li><a href="#config-js">Model</a></li>
+          <li><a href="#html-view">Html</a></li>
+          <li><a href="#scss">Scss</a></li>
+        </ul>
+        <br>
+          <p>These files are located in <b>'src/pages'</b> directory of the app root folder.</p>
+          <p>
+          The file contents of the above folder are as shown below: <br>
+          </p>
+        <div id="controller-js">
+          <h3>1. Component</h3><br>
+          <p>The Component typescript files contain the respective ts of their respective html in the app.</p>
+
+          <p>For example, if we take a look at the file <b>'team.ts'</b>, there are some functions defined in this file for its respective view/page <b>'team.html'</b>, like <b>allTeamMembers()</b> to show all team members.</p>
+
+          <p>Similarly, each controller has defined functions for its respective views. If you take a look in these files, you should be able to understand the code of the functions in the files (provided you have a basic understanding of <a href="angular.io">Angular</a> and <a href="http://www.w3schools.com/js/">Javascript</a>). </p>
+
+          <p>You can have a look at <a href="http://ionicframework.com/docs/">this link</a> for more knowledge on Ionic and its components.</p>
+        </div><br>
+
+        <div id="service-js">
+          <h3>2. Service</h3><br>
+          <p>Services can be accessed by any controller throughout the app. All that is required is for that service to be injected in the controller for the controller to access the functions of that service.</p>
+          <p> All pages have individual services like team page has <b>team.service.ts</b> file. This file contains all functions regarding data retrieval from API endpoint URL defined in <b>'config.ts'</b> file.
+        </div><br>
+
+        <div id="app-js">
+          <h3>3. Module</h3><br>
+          <p>A module is a mechanism to group components, directives, pipes and services that are related, in such a way that can be combined with other modules to create an application.</p>
+          <p>Like <b>team.module.ts</b> file has declearation code for <b>TeamPage</b> component also has code for service providers and so on.</p>
+        </div><br>
+
+
+
+        <div id="config-js">
+          <h3>4. Model</h3><br>
+          <p>An interface is an abstract type, it does not contain any code as a class does. It only defines the 'signature' or shape of an API. During transpilation, an interface will not generate any code, it is only used by Typescript for type checking during development.</p>
+          <p>If you check <b>team.model.ts</b> you can see that there are some code which defines the signature.</p>
+        </div><br>
+
+
+
+        <div id="html-view">
+          <h3>5. Html</h3><br>
+          <p>The html file of the a particular page folder contaitn the design. This is simple html file which render the dynamic data.</p>
+          <p>If you check <b>team.html</b> you can see .</p>
+        </div><br>
+
+
+        <div id="html-view">
+          <h3>6. Scss</h3><br>
+          <p>The scss file is used to design respective component. This is simple sass file. You can see <b>team.scss</b> file as a code example.</p>
+        </div>
+      </article>
+
+      <!-- FONT USAGE -->
+      <article class="font-usage" id="fontusage">
+        <h2>Fonts and Colors</h2>
+        <hr class="notop">
+        <h3>Fonts</h3>
+        <p>
+          Only one type of font has mainly been used in this app. You can see the code in <b>'src/theme/scss/_variables.scss'</b> file
+          <ul>
+            <li><b>Roboto - </b>Light, Medium and Bold font weight. </li>
+          </ul>
+          You can add more fonts as per your requirement.
+        </p>
+        <br>
+
+
+        <h3>Color</h3>
+        <p>The colors used in the app are saved in the file <b>'src/theme/scss/_variables.scss'</b>.</p>
+        <p>There are some default colors already present in the file mentioned above which are saved in variables, and those variables are used throughout the Sass files. </p>
+        <p>You can add more colors in variables according to your requirements, like the syntax shown above.</p>
+      </article>
+
+
+      <!-- SOURCES AND CREDITS -->
+      <article class="sources-credits" id="sources">
+        <h2>Credits</h2>
+        <hr class="notop">
+        <br>
+Thank you so much for purchasing this app!
+
+
+<br>
+<br>
+Regards,
+<br>
+0effortthemes Team
+      </article>
+    </section>
+  </body>
+</html>

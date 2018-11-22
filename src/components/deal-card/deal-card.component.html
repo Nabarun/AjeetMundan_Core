@@ -1,0 +1,15 @@
+<div class="deal" *ngIf="deal">
+  <span class="deal--label deal--label--blue">{{(deal.offertype === '%')? '% deals': 'Flat deals'}}</span>
+  <div class="deal--image">
+    <img src="{{deal.image}}" alt="{{deal.title}}">
+  </div>
+  <div class="deal--content--box">
+    <div class="deal--content">
+      <h3 class="deal--title">{{deal.title}}</h3>
+      <p class="deal--desp"><strong>{{deal.maxoffer}}</strong> on {{(deal.service$ | async)?.title}} </p>
+    </div>
+    <div class="deal--grab" text-sm-right *ngIf="canGrab">
+      <button ion-button (click)="grabDeal(deal)">Grab Now</button>
+    </div>
+  </div>  
+</div>

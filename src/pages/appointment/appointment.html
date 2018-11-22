@@ -1,0 +1,110 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle style="color: #d58512">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title align="center" style=" width: calc(100% - 60px)"><img src="assets/images/home/logo1.png" alt="logo"  width="auto" style="display:inline-block" height="100px"></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="back-grey">
+
+
+  <div padding>
+    <div class="white-box" padding>
+      <div *ngIf="currentUid; else login">
+        <form class="form" name="appo-form"
+            [formGroup]="appoForm"
+            (ngSubmit)="formSubmit(appoForm.value,appoForm.valid )"
+            novalidate>
+          <ion-item [ngClass]="{'error': appoForm.get('name').valid}">
+          <ion-label>
+            <ion-icon name="person"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="Your Name" formControlName="name"></ion-input>
+        </ion-item>
+
+        <ion-item [ngClass]="{'error': appoForm.get('email').valid}">
+          <ion-label>
+            <ion-icon name="mail"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="Your Email" formControlName="email"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>
+            <ion-icon name="call"></ion-icon>
+          </ion-label>
+          <ion-input placeholder="Phone" formControlName="phone" type="tel"></ion-input>
+        </ion-item>
+
+        <ion-item class="select-service">
+          <ion-label>Select Service</ion-label>
+          <ion-select formControlName="service" multiple="true">
+            <ion-option *ngFor="let service of services|async" [value]="[service.$key,service.title]">{{service.title}} - {{service.price | currency}}</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-row>
+          <ion-col width-50 class="datepicker-column">
+            <ion-label>
+              <ion-icon name="time"></ion-icon>
+              <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" formControlName="appointTime"></ion-datetime>
+            </ion-label>
+          </ion-col>
+          <ion-col width-50 class="datepicker-column">
+            <ion-label>
+              <ion-icon name="calendar"></ion-icon>
+              <ion-datetime displayFormat="MMM DD YYYY" formControlName="appointDate"></ion-datetime>
+            </ion-label>
+          </ion-col>
+        </ion-row>
+
+        <ion-item>
+          <ion-label>
+            <ion-icon name="text"></ion-icon>
+          </ion-label>
+          <ion-textarea placeholder="Notes" formControlName="notes" ></ion-textarea>
+        </ion-item>
+
+        <button type="submit" ion-button full  icon-right  [disabled]="!appoForm.valid" class="submit">
+          <ion-icon class="std-icon-hairdresser-chair"></ion-icon> Book appointment
+        </button>
+      </form>
+      </div>
+
+      <ng-template #login>
+
+        <ion-img src="assets/images/login.jpeg" class="loginimage"></ion-img>
+        <div class="text-center">
+
+          <ion-grid>
+            <ion-row>
+              <ion-col col-6>
+                <google-login></google-login>
+              </ion-col>
+              <ion-col col-6>
+                <facebook-login></facebook-login>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col>
+                <button ion-button color="secondary" round full>
+                  Login as Guest
+                </button>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+
+
+        </div>
+        <!--<div class="text-center">
+          <facebook-login></facebook-login>
+        </div>-->
+      </ng-template>
+
+    </div>
+  </div>
+  <deal-card [deal]="singleDeal" [canGrab]="false" *ngIf="singleDeal"></deal-card>
+
+</ion-content>

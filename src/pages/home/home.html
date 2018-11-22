@@ -1,0 +1,44 @@
+<!-- header -->
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle style="color: #d58512;">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title align="center" style=" width: calc(100% - 60px)">
+      <img src="assets/images/home/logo1.png" alt="logo"  width="auto" style="display:inline-block" height="100px">
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<!-- // header -->
+
+<ion-content>
+  <!-- Slide for small device -->
+  <home-slider>
+
+  </home-slider>
+  <!-- // slide for small device -->
+
+  <!-- services -->
+    <div class="bl-content has-footer-space" padding>
+      <h2 class="title-v1" text-center>Exclusive hot services</h2>
+      <div class="item item-image">
+      <img src="assets/images/home/hair-cut.jpg"/>
+      </div>
+    <ion-grid>
+      <ion-row>
+        <ion-col class="bl-content--block" *ngFor="let group of servicescats; let i = index">
+          <a class="bl-content--white" [navPush]="'service'" [navParams]="{id:group?.$key}">
+            <div class="icon-col"><i class="icon" [ngClass]="group.classname"></i></div>
+            <h3>{{group?.title}}</h3>
+          </a>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+  <!-- // Service content -->
+</ion-content>
+<!---->
+<!--
+
+<appointment-footer></appointment-footer>
+-->

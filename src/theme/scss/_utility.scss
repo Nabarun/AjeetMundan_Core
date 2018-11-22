@@ -1,0 +1,12 @@
+// Utility classes
+.hidden-xs {
+  display: none;
+  @media (min-width: $screen-sm) {
+    display: block;
+  }
+}
+.hidden-sm {
+  @media (min-width: $screen-sm) {
+    display: none;
+  }
+}

@@ -1,0 +1,13 @@
+// px to em converter
+
+$browser-context: 16; // Default
+
+@function em($pixels, $context: $browser-context) {
+  @return #{$pixels/$context}em;
+}
+
+// Usage
+//
+// h1 {
+//   font-size: em(32);
+// }

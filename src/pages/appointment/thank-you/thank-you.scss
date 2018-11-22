@@ -1,0 +1,44 @@
+page-thank-you {
+  .toolbar-background {
+    background: transparent;
+    border-color: transparent;
+    .bar-button {
+      color: #fff;
+    }
+  }
+  .close-button .icon{
+    margin-left: 10px;
+    font-size: 2.2em;
+  }
+}
+.thank-you {
+  background-color: #21242b;
+}
+
+.thank-you-page {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  text-align: center;
+
+  .thank-you-content {
+    display: block;
+    background: #fff;
+    padding: 20px;
+
+    .icon {
+      font-size: 60px;
+    }
+  }
+
+  h3 {
+    font-size: 30px;
+    font-weight: 400;
+    color: #081225;
+  }
+
+  p {
+    font-size: 14px;
+    color: #081225;
+  }
+}

@@ -1,0 +1,29 @@
+.title-v1 {
+  color: #666;
+  font-weight: 400;
+  font-size: 1.5em;
+
+
+}
+
+.content-text {
+  p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #6a6a6a;
+  }
+
+  .align-left {
+    float: left;
+    margin-right: 15px;
+  }
+
+  h2 {
+    font-size: 30px;
+    color: #2b2e43;
+  }
+  hr.clear {
+    clear: both;
+    background: transparent;
+  }
+}

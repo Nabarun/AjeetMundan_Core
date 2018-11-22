@@ -1,0 +1,19 @@
+<div class="panel-title">
+  <div class="icon-col"><i [ngClass]="category?.classname"></i></div>
+  <div class="title-col">{{category?.title}}</div>
+  <div class="desp-col text-nowrap">{{category?.description}}</div>
+  <div class="icon-toggle">
+    <button ion-button color="dark" clear small (click)="changeState()">
+      <i class="std-icon-list-bullet" [class]="isOpen ? 'std-icon-cross': 'std-icon-list-bullet'"></i>
+    </button>
+  </div>
+</div>
+
+<div class="panel-content" *ngIf="isOpen" [ngClass]="{'collapsed':isOpen}">
+  <ul class="service--group">
+    <li class="service--item" *ngFor="let item of (serviceItems | async); let j=index;">
+      <div class="service--title">{{item?.title}}</div>
+      <div class="service--price">{{item?.price}}</div>
+    </li>
+  </ul>
+</div>

@@ -1,0 +1,31 @@
+<ion-menu [content]="content" type="overlay">
+
+  <ion-header class="menu-header">
+    <ion-toolbar>
+      <ion-title align="center"><img src="assets/images/home/logo1.png" alt="logo"  width="auto" style="display:inline-block" height="70px"></ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list class="page-list">
+      <button ion-item *ngFor="let p of pages" (click)="openPage(p)">
+        <span  [attr.class]="p.icon"></span>{{p.title}}
+      </button>
+      <button ion-item *ngFor="let p of pageList" (click)="openStaticPage(p.$key)">
+        <span  [attr.class]="'std-icon-barber'"></span>{{p.title}}
+      </button>
+    </ion-list>
+    <div *ngIf="currentUid;">
+      <google-logout></google-logout>
+    </div>
+    <div class="app--author">
+
+    </div>
+    <div class="app--version">
+
+    </div>
+  </ion-content>
+
+</ion-menu>
+
+<ion-nav [root]="rootPage" #content swipeBackEnabled="false"></ion-nav>

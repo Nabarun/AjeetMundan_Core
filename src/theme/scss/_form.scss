@@ -1,0 +1,95 @@
+.item-checkbox-right {
+  flex-direction: row-reverse;
+}
+
+.datepicker-column {  
+    padding: 0;
+  
+  .label {
+    display: flex;
+    align-items: center;
+    border: .55px solid #c8c7cc;
+    border-radius: 5px;
+    padding-left: 15px; 
+    margin-right: 0;
+  }
+}
+
+.form {
+  .item {
+    padding-left: 0;
+
+    .item-inner {
+      transition: border-color .3s ease;
+    }
+    &.ng-dirty.ng-invalid .item-inner{
+      border-color: #f69321;
+    }
+
+    &.input-has-focus .item-inner {
+      border-color: #0A0F1D;
+    }
+
+    &.no-border {
+      .item-inner {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  .text-input {
+    font-size: em(12);
+  }
+
+  .datetime-text {
+    font-size: em(14);
+    color: #83848f;
+  }
+
+  .item-select {
+    .label,
+    .select-text {
+      font-size: em(12);
+    }
+  }
+
+  .select-text {
+    color: #7f7f7f;
+  }
+
+  .submit {
+    color: #f69321;
+
+    &.active,
+    &:hover {
+      color: #fff;
+    }
+
+    .icon {
+      margin-right: 10px;
+    }
+  }
+  ion-row {
+    margin-left: -5px;
+    margin-right: -5px;
+  }
+  .item-textarea {
+    textarea {
+      height: 60px;
+    }
+    &.item-ios{
+      &.item-block {
+        .item-inner {
+          border-bottom: none;
+        }
+      }
+    }        
+  }
+}
+.select-service {
+  .item-inner {
+    border: 1px solid #dedede;
+    border-radius: 5px;
+    padding-left: 10px;
+  }
+}

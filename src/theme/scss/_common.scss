@@ -1,0 +1,96 @@
+.ion-page > ion-content {
+  &.back-grey {
+    background: #efefef;
+  }
+}
+ion-content.content {
+  .scroll-content {
+    .page-title {
+      padding-top: 30px;
+      padding-bottom: 30px;
+    }
+  } 
+} 
+.page-title {
+  background: #fff;
+
+  .title {
+    font-size: em(20);
+    color: #2b2e43;
+    font-weight: 400;
+    margin: 0;
+  }
+
+  &--icon-right {
+    display: flex;
+    align-items: center;
+
+    .title {
+      width: 100%;
+    }
+  }
+}
+
+ion-datetime {
+  position: relative;
+}
+
+.page-list {
+  .item-block {
+    padding-left: 0;
+
+    &.active {
+      background-color: #f79321;
+      color: #fff;
+    }
+  }
+
+  .item-inner {
+    padding-left: 16px;
+  }
+
+  span {
+    margin-right: 10px;
+  }
+
+}
+
+.app--author,
+.app--version {
+  padding-left: 16px;
+  font-size: 13px;
+  color: #6a6a6a;
+  line-height: 1.8;
+  }
+.app--version {
+  margin-top: 15px;
+}
+
+.has-footer-space {
+  margin-bottom: 55px;
+}
+
+.text-nowrap {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.hide {
+  display: none;
+}
+.menu-header ion-title{
+  padding: 0 0 0 1px;
+}
+.back-button {
+  &.show-back-button {
+    border: 1px solid $white;
+    border-radius: 0;
+  }
+  .back-button-icon-ios {
+    font-size: em(22);
+    min-width: auto;
+    padding: 0.2em 0.3em;
+  }
+}

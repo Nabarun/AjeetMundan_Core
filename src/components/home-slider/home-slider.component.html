@@ -1,0 +1,6 @@
+<ion-slides *ngIf="(deals | async)?.length" class="slider-hrz height-auto" [autoplay]="3000" [loop]="true" [slidesPerView]="slidesPerView" [pager]="true">
+  <ion-slide *ngFor="let deal of (deals | async)">
+    {{deal.title}}
+    <img src="{{deal.image}}" alt="{{deal.title}}" class="slide-image">
+  </ion-slide>
+</ion-slides>

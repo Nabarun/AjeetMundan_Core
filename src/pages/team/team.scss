@@ -1,0 +1,47 @@
+page-team {
+
+}
+
+.team-grid {
+
+
+  &--member {
+    flex: 0 0 50%;
+    max-width: 50%;
+    @media (min-width: $screen-xs) {
+      flex: 0 0 33.3333%;
+      max-width: 33.3333%;
+    }
+  }
+
+  img {
+    width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .icon {
+    margin-right: 10px;
+    color: #d38124;
+  }
+
+  &--image {
+    background: #fff;
+  }
+
+  &--title {
+    background: #0d1a33;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    h3 {
+      font-size: 16px;
+      font-weight: 400;
+      flex: 1;
+      text-align: right;
+      margin: 0;
+    }
+  }
+}
