@@ -8,20 +8,20 @@ import { AppointmentPage } from './appointment';
 import {CommonModule} from "@angular/common";
 
 @NgModule({
-  declarations: [
-    AppointmentPage
-  ],
-  imports: [
-    IonicPageModule.forChild(AppointmentPage),
-    SharedModule.forRoot(),
-    ReactiveFormsModule,
-    CommonModule
-  ],
-  entryComponents: [
-    AppointmentPage
-  ],
-  providers: [
-    AppointmentService
-  ]
+    declarations: [
+        AppointmentPage
+    ],
+    imports: [
+        IonicPageModule.forChild(AppointmentPage),
+        SharedModule.forRoot(),
+        ReactiveFormsModule,
+        CommonModule
+    ],
+    entryComponents: [
+        AppointmentPage
+    ],
+    providers: [
+        AppointmentService
+    ]
 })
 export class AppointmentModule {}

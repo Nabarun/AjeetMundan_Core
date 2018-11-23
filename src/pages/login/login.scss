@@ -1,3 +1,13 @@
-page-login {
-
+.vertical-align {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+

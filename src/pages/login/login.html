@@ -1,13 +1,46 @@
-<ion-header>
-  <ion-navbar>
-    <button ion-button menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
-    <ion-title align="center"><img src="assets/images/home/logo.png" alt="logo"  width="auto" style="display:inline-block" height="100px"></ion-title>
-  </ion-navbar>
-</ion-header>
+<headerLogo></headerLogo>
 
-  <ion-content padding="true" class="has-header">
-    <google-login></google-login>
-  </ion-content>
+<ion-content padding-vertical="true">
+  <ion-grid>
+    <img src="assets/images/home/logo1.png" alt="logo" class="center">
+    <ion-row justify-content-center align-items-center text-center>
+      <ion-list inset>
+        <ion-item>
+          <ion-label floating>Email</ion-label>
+          <ion-input type="text" [(ngModel)]="user.email" full></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label floating>Password</ion-label>
+          <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+        </ion-item>
+
+        <ion-grid>
+          <ion-row justify-content-center align-items-center>
+            <div ion-text *ngIf="error" color="danger">{{error}}</div>
+          </ion-row>
+          <ion-row justify-content-center align-items-center>
+            <button ion-button color="secondary" round (click)="doLogin()">Sign In</button>
+          </ion-row>
+          <ion-row justify-content-center align-items-center>
+            <button ion-button color="secondary" round (click)="passwordReset()">Forgot Password</button>
+          </ion-row>
+          <ion-row text-center>
+            <ion-label>OR</ion-label>
+          </ion-row>
+          <ion-row justify-content-center align-items-center>
+            <ion-col>
+              <button ion-button color="secondary" outline round (click)="doRegister()">Create a new account</button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+      <ion-note item-right>To book an appointment with Ajeet Mundan.
+        signin with your email Id and password.</ion-note>
+    </ion-row>
+  </ion-grid>
+
+
+</ion-content>
+
 

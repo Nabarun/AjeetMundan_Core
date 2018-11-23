@@ -1,8 +1,0 @@
-<!-- Generated template for the GoogleLoginComponent component -->
-<div *ngIf="(user|async) || {} as user">
-  <div *ngIf="user.uid" align="center">
-    <button ion-button (tap)="signOut()" *ngIf="isGoogleLogout">
-      Signout
-    </button>
-  </div>
-</div>

@@ -1,11 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {HomePage} from "../home/home";
-import {AppointmentPage} from "../appointment/appointment";
 import {LoginPage} from "../login/login";
 import {ServicedbService} from "../service/servicedb.service";
 import {DealsPage} from "../deals/deals";
-import {AngularFireAuth} from "angularfire2/auth";
+import {AppointmentPage} from "../appointment/appointment";
 
 /**
  * Generated class for the TabsPage page.
@@ -29,7 +28,7 @@ export class TabsPage {
 
   constructor(private _dbservice: ServicedbService) {
     this.tabOne = HomePage;
-    this.tabTwo = AppointmentPage;
+    this.tabTwo = LoginPage;
     this.tabThree = DealsPage;
   }
 

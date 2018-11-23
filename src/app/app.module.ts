@@ -27,66 +27,70 @@ import {DealCard} from "../components/deal-card/deal-card.component";
 import {PageTitle} from "../components/page-title/page-title.component";
 import {Geolocation} from "@ionic-native/geolocation";
 import { GoogleMaps } from '@ionic-native/google-maps';
-import { GoogleLoginComponent } from '../components/google-login/google-login';
 import {LoginPage} from "../pages/login/login";
 import {GooglePlus} from "@ionic-native/google-plus";
 import {Page} from "../pages/page/page";
-import {FacebookLoginComponent} from "../components/facebook-login/facebook-login";
 import {Facebook} from "@ionic-native/facebook";
 import {GoogleLogoutComponent} from "../components/google-logout/google-logout";
+import {AppointmentModule} from "../pages/appointment/appointment.module";
+import {LogoutComponent} from "../components/logout/logout";
+import {HeaderLogo} from "../components/headerLogo/headerLogo";
+import { AuthProvider } from '../providers/auth/auth';
+import { FirebaseProvider } from '../providers/firebase/firebase';
 
 @NgModule({
 
-  declarations: [
-    MyApp,
-    HomePage,
-    HomeSlider,
-    AppointmentPage,
-    DealsPage,
-    ContactPage,
-    LoginPage,
-    Page,
-    DealCard,
-    PageTitle,
-    GoogleLoginComponent,
-    GoogleLogoutComponent,
-    FacebookLoginComponent
-  ],
-  imports: [
-    IonicModule.forRoot(MyApp, config),
-    BrowserModule,
-    AngularFireAuthModule,
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFireDatabaseModule,
-    ServiceModule
-  ],
-  bootstrap: [
-    IonicApp
-  ],
-  entryComponents: [
-    MyApp,
-    HomePage,
-    HomeSlider,
-    AppointmentPage,
-    DealsPage,
-    LoginPage,
-    Page,
-    ContactPage
-  ],
-  providers: [{
-      provide: ErrorHandler,
-      useClass: IonicErrorHandler
+    declarations: [
+        MyApp,
+        HomePage,
+        HomeSlider,
+        DealsPage,
+        ContactPage,
+        LoginPage,
+        Page,
+        DealCard,
+        PageTitle,
+        LogoutComponent,
+        HeaderLogo,
+        AppointmentPage
+    ],
+    imports: [
+        IonicModule.forRoot(MyApp, config),
+        BrowserModule,
+        AngularFireAuthModule,
+        AngularFireModule.initializeApp(firebaseConfig),
+        AngularFireDatabaseModule,
+        ServiceModule
+    ],
+    bootstrap: [
+        IonicApp
+    ],
+    entryComponents: [
+        MyApp,
+        HomePage,
+        HomeSlider,
+        AppointmentPage,
+        DealsPage,
+        LoginPage,
+        Page,
+        ContactPage
+    ],
+    providers: [{
+        provide: ErrorHandler,
+        useClass: IonicErrorHandler
     },
-    DealsService,
-    ServicedbService,
-    PageService,
-    Push,
-    Device,
-    PushService,
-    AppointmentService,
-    GoogleMaps,
-    GooglePlus,
-    Facebook
-  ]
+        DealsService,
+        ServicedbService,
+        PageService,
+        Push,
+        Device,
+        PushService,
+        AppointmentService,
+        GoogleMaps,
+        GooglePlus,
+        Facebook,
+        AuthProvider,
+        FirebaseProvider
+    ]
 })
 export class AppModule {}

@@ -1,0 +1,47 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar class="bar-positive">
+    <ion-title>Register</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding justify-content-center align-items-center text-center>
+  <img src="assets/images/home/logo1.png" alt="logo" class="center">
+  <form class="form" name="appo-form"
+        [formGroup]="appoForm"
+        (ngSubmit)="formSubmit(appoForm.value,appoForm.valid )"
+        novalidate>
+
+    <ion-item [ngClass]="{'error': appoForm.get('email').valid}">
+      <ion-label floating>
+        Email
+      </ion-label>
+      <ion-input type="text" formControlName="email"></ion-input>
+    </ion-item>
+
+    <ion-item [ngClass]="{'error': appoForm.get('phone').valid}">
+      <ion-label floating>
+        Phone
+      </ion-label>
+      <ion-input  type="text" formControlName="phone"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" formControlName="password"></ion-input>
+    </ion-item>
+
+    <ion-row justify-content-center align-items-center>
+      <button ion-button color="secondary" round (click)="register()" [disabled]="!appoForm.valid" >Register</button>
+    </ion-row>
+  </form>
+  <ion-note item-right>Create an account using email and phone. Based on your choice notifications/reminders will be sent to email or phone.</ion-note>
+</ion-content>
