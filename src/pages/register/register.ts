@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
 import {AngularFireAuth} from "angularfire2/auth";
 import {User} from "../../models/user";
 import {Firebase} from '@ionic-native/firebase';
 import {FirebaseListObservable} from "angularfire2/database";
 import {FirebaseProvider} from "../../providers/firebase/firebase";
 import {AuthProvider} from "../../providers/auth/auth";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 
 /**
  * Generated class for the RegisterPage page.
@@ -24,6 +24,7 @@ export class RegisterPage {
     user = {} as User;
     authState: any = null;
     appoForm: FormGroup;
+    error : String;
 
     constructor(
         public fb: FormBuilder,
@@ -32,7 +33,7 @@ export class RegisterPage {
         public navParams: NavParams,
         public authProvider: AuthProvider,
         public firebaseProvider: FirebaseProvider,
-        public formBuilder: FormBuilder) {
+        private toastCtrl: ToastController) {
         this.afAuth.authState.subscribe((auth) => {
             this.authState = auth;
         });
@@ -48,14 +49,18 @@ export class RegisterPage {
         });
     }
 
-    async register(){
-        debugger;
+    register(){
+        var self= this;
         if(this.appoForm.valid) {
-            const newUser = this.authProvider.signup(this.appoForm.value);
-            this.authState = newUser;
-            this.addUser(newUser);
-
-            this.navCtrl.push('AppointmentPage');
+            this.afAuth.auth.createUserWithEmailAndPassword(this.appoForm.value.email, this.appoForm.value.password).then((newUser) => {
+                this.authState = newUser;
+                this.addUser(newUser);
+                this.navCtrl.push('AppointmentPage');
+            }).catch(function(err){
+                if(self !== undefined) {
+                    self.error = err.message;
+                }
+            });
         }
 
     }
@@ -68,9 +73,18 @@ export class RegisterPage {
         };
 
         this.firebaseProvider.addUser(newUser);
-
     }
 
+    private presentToast(message) : void {
+        let toast = this.toastCtrl.create({
+            message: 'Registration failed ' + message,
+            duration: 3000,
+            position: 'top'
+        });
 
+        toast.present().catch(function (error) {
+            console.log(error);
+        });
+    }
 
 }
