@@ -26,7 +26,7 @@ export class DealsService {
     return this.af.list('deals', {
       query: {
         orderByChild: 'expiredate',
-        startAt: new Date().toISOString()
+        startAt: new Date().toDateString()
       }
     }).map((deals: Deals[]) => {
       return deals.filter(deal => deal.status === 'publish')

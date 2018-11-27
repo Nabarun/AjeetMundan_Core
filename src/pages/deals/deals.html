@@ -1,4 +1,12 @@
-<headerLogo></headerLogo>
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{title|uppercase}}</ion-title>
+    <button ion-button menuToggle style="color: #d58512">
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-navbar>
+</ion-header>
+
 
 <ion-content class="back-grey">
   <page-title [title]="'Exclusive hot deals'"></page-title>
