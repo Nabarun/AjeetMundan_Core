@@ -3,6 +3,8 @@ import { NavController } from 'ionic-angular';
 
 import { DealsService } from '../../pages/deals/deals.service';
 import { Deals } from '../../pages/deals/deals.model';
+import {AppointmentPage} from "../../pages/appointment/appointment";
+import {LoginPage} from "../../pages/login/login";
 
 @Component({
   selector: 'deal-card',
@@ -22,7 +24,7 @@ export class DealCard {
     this.deal.ordercount++;
     this._dbdeals.updateDealOrder(this.deal.$key, this.deal.ordercount.toString()).then(res => {
       this._dbdeals.updateDealgrab(this.deal);
-      this.navCtrl.push('appointment');
+      this.navCtrl.push(LoginPage);
     });
   }
 

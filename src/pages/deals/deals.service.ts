@@ -22,16 +22,8 @@ export class DealsService {
   /**
    * Returns all deals that are active and can be grabbed
    */
-  getActiveDeals(): Observable<Deals[]> {
-    return this.af.list('deals', {
-      query: {
-        orderByChild: 'expiredate',
-        startAt: new Date().toDateString()
-      }
-    }).map((deals: Deals[]) => {
-      return deals.filter(deal => deal.status === 'publish')
-        .filter(deal => deal.ordercount < deal.userlimit)
-    })
+  getActiveDeals(): FirebaseListObservable<Deals[]> {
+    return this.af.list('deals');
   }
 
   /**

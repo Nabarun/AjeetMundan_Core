@@ -6,7 +6,7 @@
   <div class="deal--content--box">
     <div class="deal--content">
       <h3 class="deal--title">{{deal.title}}</h3>
-      <p class="deal--desp"><strong>{{deal.maxoffer}}</strong> on {{(deal.service$ | async)?.title}} </p>
+      <p class="deal--desp"><strong>{{deal.maxoffer}}</strong> </p>
     </div>
     <div class="deal--grab" text-sm-right *ngIf="canGrab">
       <button ion-button (click)="grabDeal(deal)">Grab Now</button>

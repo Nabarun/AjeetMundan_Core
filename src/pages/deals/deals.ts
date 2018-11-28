@@ -20,6 +20,6 @@ export class DealsPage {
   constructor(private _dbdeals: DealsService) { }
 
   ngOnInit() {
-    this.deals = this._dbdeals.getActiveDealsDetails();
+    this.deals = this._dbdeals.getActiveDeals();
   }
 }
