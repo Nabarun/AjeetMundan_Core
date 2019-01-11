@@ -7,6 +7,7 @@ import {FirebaseListObservable} from "angularfire2/database";
 import {FirebaseProvider} from "../../providers/firebase/firebase";
 import {AuthProvider} from "../../providers/auth/auth";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AppointmentPage} from "../appointment/appointment";
 
 /**
  * Generated class for the RegisterPage page.
@@ -54,26 +55,18 @@ export class RegisterPage {
         if(this.appoForm.valid) {
             this.afAuth.auth.createUserWithEmailAndPassword(this.appoForm.value.email, this.appoForm.value.password).then((newUser) => {
                 this.authState = newUser;
-                this.addUser(newUser);
-                this.navCtrl.push('AppointmentPage');
+                this.navCtrl.push(AppointmentPage);
             }).catch(function(err){
+                self.presentToast(err);
                 if(self !== undefined) {
                     self.error = err.message;
+
                 }
             });
         }
 
     }
 
-    private addUser(userObj) : void {
-        var newUser = {
-            uid: userObj.uid,
-            email: this.user.email,
-            phone: this.user.phone
-        };
-
-        this.firebaseProvider.addUser(newUser);
-    }
 
     private presentToast(message) : void {
         let toast = this.toastCtrl.create({

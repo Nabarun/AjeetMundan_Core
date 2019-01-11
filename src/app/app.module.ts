@@ -37,6 +37,8 @@ import {LogoutComponent} from "../components/logout/logout";
 import {HeaderLogo} from "../components/headerLogo/headerLogo";
 import { AuthProvider } from '../providers/auth/auth';
 import { FirebaseProvider } from '../providers/firebase/firebase';
+import { HttpProvider } from '../providers/http/http';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
 
@@ -60,7 +62,8 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
         AngularFireAuthModule,
         AngularFireModule.initializeApp(firebaseConfig),
         AngularFireDatabaseModule,
-        ServiceModule
+        ServiceModule,
+        HttpModule
     ],
     bootstrap: [
         IonicApp
@@ -78,7 +81,7 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
     providers: [{
         provide: ErrorHandler,
         useClass: IonicErrorHandler
-    },
+        },
         DealsService,
         ServicedbService,
         PageService,
@@ -86,11 +89,10 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
         Device,
         PushService,
         AppointmentService,
-        GoogleMaps,
-        GooglePlus,
-        Facebook,
+        FirebaseProvider,
         AuthProvider,
-        FirebaseProvider
+    FirebaseProvider,
+    HttpProvider
     ]
 })
 export class AppModule {}

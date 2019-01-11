@@ -18,7 +18,6 @@ import {DealsService} from '../deals/deals.service';
 import {Deals} from "../deals/deals.model";
 import {PushService} from '../../app/push.service';
 import {AngularFireAuth} from 'angularfire2/auth';
-import {GooglePlus} from "@ionic-native/google-plus";
 import {AuthService} from '../providers/auth.service';
 import {User} from "../../models/user";
 import {HomePage} from "../home/home";
@@ -49,7 +48,6 @@ export class AppointmentPage{
                 public alertCtrl: AlertController,
                 private pushservice: PushService,
                 private afAuth: AngularFireAuth,
-                private plus: GooglePlus,
                 private platform: Platform,
                 public navCtrl: NavController,
                 public events: Events) {

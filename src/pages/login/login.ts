@@ -5,6 +5,7 @@ import {AngularFireAuth} from "angularfire2/auth";
 import {AuthProvider} from "../../providers/auth/auth";
 import {AppointmentPage} from "../appointment/appointment";
 
+
 /**
  * Generated class for the LoginPage page.
  *
