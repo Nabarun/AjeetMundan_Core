@@ -4,6 +4,7 @@ import {Content, IonicPage, NavParams} from 'ionic-angular';
 import { ServicedbService } from './servicedb.service'
 import { Category } from "./category.model";
 import {expand} from "rxjs/operator/expand";
+import {Service} from "./service.model";
 
 @IonicPage({
     name: 'service',
@@ -19,6 +20,8 @@ export class ServicePage implements OnInit {
     @ViewChild(Content) content: Content;
 
     categories: Array<Category>;
+    services: Array<Service>;
+
     searchCategory: Array<Category>;
     private _id: string;
     private _title: string;
@@ -52,16 +55,39 @@ export class ServicePage implements OnInit {
                 this.scrollContent(this._id);
             }
         });
+
+        this._dbservice.all().subscribe(res => {
+            this.services = res;
+        });
     }
 
     getCategories(ev: any){
         const val = ev.target.value;
 
         if (val && val.trim() != '') {
-            this.searchCategory = this.categories.filter((item) => {
+
+            let searchService = this.services.filter((item) => {
                 //Search for the key word
                 return (item.title.toLowerCase().includes(val.toLowerCase()));
-            })
+            });
+
+            let uniqCat = searchService.reduce(function(a,b){
+                if (a.indexOf(b.category) < 0 ) a.push(b.category);
+                return a;
+            },[]);
+
+
+            let catResult = [];
+            uniqCat.filter((item) => {
+                this.categories.filter((cat) => {
+                    if(item == cat.$key){
+                        catResult.push(cat);
+                    }
+                });
+            });
+            this.searchCategory = catResult;
+
+            console.log(this.searchCategory.length);
         } else {
             this.searchCategory = this.categories;
         }

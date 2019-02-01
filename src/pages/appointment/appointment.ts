@@ -39,6 +39,7 @@ export class AppointmentPage{
     currentUid: any;
     isLoggedIn: any;
     user = {} as User;
+    dayValues: string[];
     constructor(public fb: FormBuilder,
                 public modalCtrl: ModalController,
                 public menuCtrl: MenuController,
@@ -51,7 +52,6 @@ export class AppointmentPage{
                 private platform: Platform,
                 public navCtrl: NavController,
                 public events: Events) {
-
     }
 
     ngOnInit() {
@@ -76,7 +76,6 @@ export class AppointmentPage{
                 this.currentUid=null;
             }
         });
-
     }
 
 
@@ -121,27 +120,55 @@ export class AppointmentPage{
     }
 
     saveFormData(appForm: any): void {
-        appForm.date = this.fixDateTime(appForm.appointTime, appForm.appointDate).toString();
+        appForm.date = new Date().toLocaleDateString();
+        appForm.starttime = this.fixStartDateTime(appForm.appointTime, appForm.appointDate).toLocaleTimeString();
+        debugger;
+        appForm.endtime = this.fixEndDateTime(appForm.appointTime, appForm.appointDate, appForm.service.length).toLocaleTimeString();
         delete appForm.appointTime;
         delete appForm.appointDate;
         this._db.save(appForm).then((res) => {
             this.presentModal();
-            this.appoForm.reset();
+
+            const currentDate = new Date();
+            const defaultTime = {
+                appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
+                appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
+            }
+
+            this.appoForm.reset({appointTime: defaultTime.appointTime, appointDate: defaultTime.appointDate});
             this._dealdb.updateDealgrab(null);
         });
     }
 
-    fixDateTime(timeString: string, dateString: string): Date {
-        const bookingTime = timeString.split(':');
+    fixStartDateTime(timeString: string, dateString: string): Date {
+        const bookingTimeString = timeString.split(':');
         const bookingDate = new Date(dateString);
-        let temp = bookingDate.setHours(parseInt(bookingTime[0]));
-        temp = bookingDate.setMinutes(parseInt(bookingTime[1]));
+        let temp = bookingDate.setHours(parseInt(bookingTimeString[0]));
+        temp = bookingDate.setMinutes(parseInt(bookingTimeString[1]));
+        return new Date(temp);
+    }
+
+    fixEndDateTime(timeString: string, dateString: string, serviceCount: number): Date {
+        const endBookingTimeString = timeString.split(":");
+        const endBookingDate = new Date(dateString);
+        let hour = parseInt(endBookingTimeString[0]);
+        let minutes = parseInt(endBookingTimeString[1]) + 20 * serviceCount;
+
+        if(minutes > 60){
+            hour = hour + 1;
+            minutes = minutes - 60;
+        }
+
+        let temp = endBookingDate.setHours(hour);
+        temp = endBookingDate.setMinutes(minutes);
+
         return new Date(temp);
     }
 
     formSubmit(value: any, valid): void {
         if (valid && this.currentUid) {
             value.uid= this.currentUid;
+
             this.saveFormData(value);
         } else {
             this.showErrorAlert('Form validation error');

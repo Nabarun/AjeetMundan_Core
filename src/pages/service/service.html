@@ -19,6 +19,7 @@
     </div>
     <single-category *ngFor="let category of searchCategory; let i = index"
                      [category]="category" (onChangeState)="toggleContent(i)" [isOpen]="isOpen(i)" [attr.id]="category"></single-category>
+
   </div>
 
 </ion-content>

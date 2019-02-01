@@ -70,13 +70,13 @@ export class LoginPage {
                     },
                     {
                         text: 'Submit',
-                        handler: email => {
-                            if (!email) {
+                        handler: resp => {
+                            if (!resp) {
                                 return;
                             }
-                            const result = this.confirmPasswordReset(email);
-                            if (result) {
-                                var confirmAlert = this.alertCtrl.create({
+
+                            this.afAuth.auth.sendPasswordResetEmail(resp.email).then(response => {
+                                let confirmAlert = this.alertCtrl.create({
                                     title: 'Email Sent',
                                     subTitle: 'Email has been successfully sent. Please click the link and reset your password.',
                                     buttons: [{
@@ -85,7 +85,11 @@ export class LoginPage {
                                 });
 
                                 confirmAlert.present();
-                            }
+                            }).catch((err) => {
+
+                                alert.dismiss();
+                            });
+
                         }
                     }
                 ]
@@ -99,13 +103,8 @@ export class LoginPage {
 
     async confirmPasswordReset(email){
         try{
-            this.afAuth.auth.sendPasswordResetEmail(email).then(response => {
-                console.log(response);
-                return true;
-            }).catch(
-                error => console.log(error)
-            );
-            return false;
+            debugger;
+
         } catch(e){
             return false;
         }

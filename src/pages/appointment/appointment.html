@@ -47,7 +47,7 @@
                 <ion-item class="select-service">
                   <ion-label>Select Service</ion-label>
                   <ion-select formControlName="service" multiple="true">
-                    <ion-option *ngFor="let service of services|async" [value]="[service.$key,service.title]">{{service.title}} - {{service.price | currency}}</ion-option>
+                    <ion-option *ngFor="let service of services|async" [value]="[service.title]">{{service.title}} - {{service.price}}</ion-option>
                   </ion-select>
                 </ion-item>
 
@@ -55,13 +55,13 @@
                   <ion-col width-50 class="datepicker-column">
                     <ion-label>
                       <ion-icon name="time"></ion-icon>
-                      <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" formControlName="appointTime"></ion-datetime>
+                      <ion-datetime displayFormat="DDD. h:mm A" pickerFormat="h mm A" formControlName="appointTime" ></ion-datetime>
                     </ion-label>
                   </ion-col>
                   <ion-col width-50 class="datepicker-column">
                     <ion-label>
                       <ion-icon name="calendar"></ion-icon>
-                      <ion-datetime displayFormat="MMM DD YYYY" formControlName="appointDate"></ion-datetime>
+                      <ion-datetime displayFormat="DD DDD" formControlName="appointDate"></ion-datetime>
                     </ion-label>
                   </ion-col>
                 </ion-row>

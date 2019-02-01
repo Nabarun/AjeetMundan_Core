@@ -3,6 +3,8 @@ export interface Appointment {
     email: string;
     phone: string;
     date: string;
+    starttime: string;
     notes: string;
     status: string;
+    endtime: string;
 }

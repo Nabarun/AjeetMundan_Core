@@ -20,4 +20,17 @@ export class AppointmentService {
     save(content: Appointment) {
         return this.appointments.push(content);
     }
+
+    /**
+     * Return appointments for today
+     */
+
+    todayAppointments(category: string) {
+        return this.af.list('appointments', {
+            query: {
+                orderByChild: 'category',
+                equalTo: category
+            }
+        });
+    }
 }
