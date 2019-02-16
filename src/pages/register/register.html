@@ -26,11 +26,11 @@
       <ion-input type="text" formControlName="email" ></ion-input>
     </ion-item>
 
-    <ion-item [ngClass]="{'error': appoForm.get('phone').valid}">
+    <ion-item [ngClass]="{'error': appoForm.get('name').valid}">
       <ion-label floating>
-        Phone
+        Name
       </ion-label>
-      <ion-input  type="text" formControlName="phone"></ion-input>
+      <ion-input  type="text" formControlName="name"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -47,5 +47,5 @@
     </ion-row>
 
   </form>
-  <ion-note item-right>Create an account using email and phone. Based on your choice notifications/reminders will be sent to email or phone.</ion-note>
+  <ion-note item-right>Create an account using email and name. Based on your choice notifications/reminders will be sent to email or name.</ion-note>
 </ion-content>

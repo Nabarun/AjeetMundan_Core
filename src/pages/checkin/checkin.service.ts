@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+import {Appointment} from "../appointment/appointment.model";
 
 
-import { Appointment } from './appointment.model';
-import {Service} from "../service/service.model";
-import {Observable} from "rxjs";
 
 @Injectable()
-export class AppointmentService {
+export class CheckinService {
 
     constructor(private af: AngularFireDatabase) { }
 
@@ -24,17 +22,6 @@ export class AppointmentService {
     }
 
     showAppointmentForThisDate(date: string): FirebaseListObservable<Appointment[]>{
-
-        return this.af.list('appointments', {
-            query: {
-                orderByChild: 'date',
-                equalTo: date
-            }
-        });
-    }
-
-    getLatestBookingSlot(date: string): FirebaseListObservable<Appointment[]>{
-
         return this.af.list('appointments', {
             preserveSnapshot: true,
             query: {
@@ -43,4 +30,5 @@ export class AppointmentService {
             }
         });
     }
+
 }

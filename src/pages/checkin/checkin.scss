@@ -26,10 +26,13 @@ page-appointment {
 
 }
 
+.stretch{
+  width: 100%;
+}
 .vertical-align-content
 {
   height: 100%;
-
+  width: 100%
 }
 
 .customIcon {
@@ -38,19 +41,6 @@ page-appointment {
 
 .select-services {
   width:10px;
-}
-
-
-.spacer {
-  padding-top: 5px;
-}
-
-.primary-color {
-  color: orange;
-}
-
-.secondary-color {
-  color: wheat;
 }
 
 

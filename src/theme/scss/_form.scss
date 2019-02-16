@@ -91,5 +91,7 @@
     border: 1px solid #dedede;
     border-radius: 5px;
     padding-left: 10px;
+    max-width: 100%;
+    overflow-wrap: break-word;
   }
 }

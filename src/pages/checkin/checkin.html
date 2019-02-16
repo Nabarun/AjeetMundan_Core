@@ -1,0 +1,87 @@
+<script src="checkin.ts"></script>
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{title|uppercase}}</ion-title>
+        <button ion-button menuToggle style="color: #d58512">
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    </ion-navbar>
+</ion-header>
+
+<ion-content center text-center>
+
+    <ion-grid class="vertical-align-content">
+
+        <ion-row justify-content-center align-items-center class="stretch">
+
+
+            <ion-col center>
+
+                <div *ngIf="activate;else deactivate">
+                    <ion-note >Walk in is valid on Friday, Saturday and Sunday. Enter your details along with the number of services you want to have, and then verify the wait time.</ion-note>
+                    <div>
+                    <form class="form" name="checkin-form"
+                          [formGroup]="checkinForm"
+                          (ngSubmit)="formSubmit(checkinForm.value,checkinForm.valid )"
+                          novalidate>
+
+
+                        <ion-item [ngClass]="{'error': checkinForm.get('name').valid}">
+                            <ion-label>
+                                <ion-icon name="person"></ion-icon>
+                            </ion-label>
+                            <ion-input placeholder="Your Name" formControlName="name"></ion-input>
+                        </ion-item>
+
+                        <ion-item [ngClass]="{'error': checkinForm.get('email').valid}">
+                            <ion-label>
+                                <ion-icon name="mail"></ion-icon>
+                            </ion-label>
+                            <ion-input placeholder="Your Email" formControlName="email"></ion-input>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label>
+                                <ion-icon name="call"></ion-icon>
+                            </ion-label>
+                            <ion-input placeholder="Phone" formControlName="phone" type="tel"></ion-input>
+                        </ion-item>
+
+                        <ion-item class="select-service">
+                            <ion-label>Select Service</ion-label>
+                            <ion-select formControlName="service" multiple="true" class="select-services" cancelText="Cancel" okText="Confirm!" (ionChange)="selectedServices($event)">
+                                <ion-option *ngFor="let service of services|async" [value]="[service.title]">{{service.title}} - {{service.price}}</ion-option>
+                            </ion-select>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-scroll scrollX="true" style="width:90vw; height:50px" >
+                                <ion-row nowrap class="headerChip">
+                                    <div *ngFor="let svc of serviceSelected; let i = index">
+                                        <ion-chip style="background: wheat">
+                                            <ion-label>{{svc}}</ion-label>
+                                            <div></div>
+                                        </ion-chip>
+                                    </div>
+                                </ion-row>
+                            </ion-scroll>
+                        </ion-item>
+
+                        <button type="submit" ion-button full  icon-right  [disabled]="!checkinForm.valid" class="submit">
+                            <ion-icon class="std-icon-hairdresser-chair"></ion-icon> Check me in!
+                        </button>
+                    </form>
+                </div>
+                </div>
+                <ng-template #deactivate>
+                    <ion-grid>
+                        <img src="assets/images/home/logo1.png" alt="logo" class="center">
+                        <ion-row justify-content-center align-items-center text-center>
+                            <ion-note item-right>Walkin is disabled from Mon-Thu</ion-note>
+                        </ion-row>
+                    </ion-grid>
+                </ng-template>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

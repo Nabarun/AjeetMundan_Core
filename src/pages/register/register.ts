@@ -22,7 +22,6 @@ import {AppointmentPage} from "../appointment/appointment";
 })
 export class RegisterPage {
 
-    user = {} as User;
     authState: any = null;
     appoForm: FormGroup;
     error : String;
@@ -45,7 +44,7 @@ export class RegisterPage {
     ngOnInit(){
         this.appoForm = this.fb.group({
             email: ['',Validators.compose([Validators.required, Validators.email])],
-            phone: ['', Validators.required],
+            name: ['', Validators.required],
             password: ['']
         });
     }
@@ -55,7 +54,9 @@ export class RegisterPage {
         if(this.appoForm.valid) {
             this.afAuth.auth.createUserWithEmailAndPassword(this.appoForm.value.email, this.appoForm.value.password).then((newUser) => {
                 this.authState = newUser;
-                this.navCtrl.push(AppointmentPage);
+                this.addUser(newUser);
+                let active = this.navCtrl.getActive(); // or getByIndex(int) if you know it
+                this.navCtrl.remove(active.index);
             }).catch(function(err){
                 self.presentToast(err);
                 if(self !== undefined) {
@@ -66,7 +67,15 @@ export class RegisterPage {
         }
 
     }
+    private addUser(userObj) : void {
+        var newUser = {
+            uid: userObj.uid,
+            email: userObj.email,
+            name: this.appoForm.value.name
+        };
 
+        this.firebaseProvider.addUser(newUser);
+    }
 
     private presentToast(message) : void {
         let toast = this.toastCtrl.create({

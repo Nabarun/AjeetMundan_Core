@@ -20,7 +20,9 @@ import {PushService} from '../../app/push.service';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {AuthService} from '../providers/auth.service';
 import {User} from "../../models/user";
-import {HomePage} from "../home/home";
+import {Appointment} from "./appointment.model";
+import {FirebaseListObservable} from "angularfire2/database";
+import {Service} from "../service/service.model";
 
 @IonicPage({
     name: 'appointment',
@@ -31,15 +33,23 @@ import {HomePage} from "../home/home";
     templateUrl: 'appointment.html'
 })
 export class AppointmentPage{
+    error: string;
+    callback: () => void;
     gplus: any;
     appoForm: FormGroup;
     services: any = this._dbservice.all();
     deal: Observable<Deals> = this._dealdb.dealgrab$;
     singleDeal: Deals;
     currentUid: any;
+    currentUname: string;
+    currentEmail: string;
     isLoggedIn: any;
     user = {} as User;
     dayValues: string[];
+    monthValues: string[];
+    todaysAppt: Observable<Appointment[]>;
+    serviceSelected: any;
+
     constructor(public fb: FormBuilder,
                 public modalCtrl: ModalController,
                 public menuCtrl: MenuController,
@@ -52,6 +62,12 @@ export class AppointmentPage{
                 private platform: Platform,
                 public navCtrl: NavController,
                 public events: Events) {
+
+        this.dayValues = new Array();
+        this.monthValues = new Array();
+        this.currentEmail ="";
+        this.currentUname="";
+        this.serviceSelected = new Array();
     }
 
     ngOnInit() {
@@ -72,16 +88,11 @@ export class AppointmentPage{
                 if (this.pushservice.uuid) {
                     this.appoForm.controls['uid'].patchValue(this.pushservice.uuid);
                 }
+                this.getAllAppointmentDays();
             }else{
                 this.currentUid=null;
             }
         });
-    }
-
-
-    @ViewChild(Navbar) navBar: Navbar;
-    clickBackButton() {
-        this.navCtrl.setPages([{page: HomePage}]);
     }
 
     createForm() {
@@ -119,24 +130,93 @@ export class AppointmentPage{
         alert.present();
     }
 
-    saveFormData(appForm: any): void {
-        appForm.date = new Date().toLocaleDateString();
-        appForm.starttime = this.fixStartDateTime(appForm.appointTime, appForm.appointDate).toLocaleTimeString();
-        debugger;
-        appForm.endtime = this.fixEndDateTime(appForm.appointTime, appForm.appointDate, appForm.service.length).toLocaleTimeString();
-        delete appForm.appointTime;
-        delete appForm.appointDate;
-        this._db.save(appForm).then((res) => {
-            this.presentModal();
+    async saveFormData(appForm: any) {
+        let date = new Date(appForm.appointDate);
+        let utcDate = new Date(date.toUTCString());
+        utcDate.setHours(utcDate.getHours() + 14);
 
-            const currentDate = new Date();
-            const defaultTime = {
-                appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
-                appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
+        appForm.date =this.fixStartDateTime(appForm.appointTime, utcDate.toDateString()).toLocaleDateString();
+        appForm.starttime = this.fixStartDateTime(appForm.appointTime, appForm.date).toLocaleTimeString('en-GB');
+        appForm.endtime = this.fixEndDateTime(appForm.appointTime, appForm.date, appForm.service.length).toLocaleTimeString('en-GB');
+        //
+        let startDate = new Date(appForm.date);
+        let bookingStartTime = new Date(this.fixStartDateTime(appForm.starttime, appForm.date));
+        let bookingEndTime = new Date(this.fixStartDateTime(appForm.endtime, appForm.date));
+        this.todaysAppt = this._db.showAppointmentForThisDate(startDate.toLocaleDateString());
+        let appt = new Promise((resolve, reject) => {
+            if(startDate.getDay() != 5 && startDate.getDay() !=6 && startDate.getDay() != 0) {
+                this.todaysAppt.subscribe((appts) => {
+                    appts = appts.reverse();
+                    this.validateTimeSlot(appts, appForm.date, bookingStartTime, bookingEndTime).then((resp) => {
+                        resolve(resp)
+                    });
+                });
+            } else {
+                resolve(false);
+            }
+        });
+
+        appt.then((resp) => {
+            if (resp) {
+                delete appForm.appointTime;
+                delete appForm.appointDate;
+
+                this._db.save(appForm).then((res) => {
+                    this.presentModal();
+
+                    const currentDate = new Date();
+                    const defaultTime = {
+                        appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
+                        appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
+                    }
+
+                    this.appoForm.reset({
+                        appointTime: defaultTime.appointTime,
+                        appointDate: defaultTime.appointDate
+                    });
+                    this._dealdb.updateDealgrab(null);
+                });
+            } else {
+                if(startDate.getDay() == 5 || startDate.getDay() ==6 || startDate.getDay() == 0){
+                    const alert = this.alertCtrl.create({
+                        title: 'Booking Appointment Disabled',
+                        subTitle: 'You cannot book appointment on Friday, Saturday and Sunday',
+                        buttons: ['Ok']
+                    });
+                    alert.present();
+                } else {
+                    let alert = this.alertCtrl.create({
+                        title: 'Already Booked',
+                        subTitle: "It seems someone has already booked during this time. Please call Ajeet to set up an appointment.",
+                        buttons: ['OK']
+                    });
+                    alert.present();
+                }
+            }
+        });
+
+    }
+
+    validateTimeSlot(appts: any, date: string, bookingStartTime: Date, bookingEndTime: Date){
+        return new Promise((resolve, reject) =>{
+            let resp = true;
+            for(let loop=0; loop< appts.length; loop++) {
+                let apptObj = appts[loop];
+                let existingStartTime = new Date(this.fixStartDateTime(apptObj.starttime, date));
+                let existingEndTime = new Date(this.fixStartDateTime(apptObj.endtime, date));
+                if (bookingEndTime > existingStartTime && bookingEndTime <= existingEndTime) {
+                    resp = false;
+                    break;
+                } else if (bookingStartTime >= existingStartTime && bookingStartTime < existingEndTime) {
+                    resp = false;
+                    break;
+                } else if (bookingStartTime <= existingStartTime && bookingEndTime >= existingEndTime) {
+                    resp = false;
+                    break;
+                }
             }
 
-            this.appoForm.reset({appointTime: defaultTime.appointTime, appointDate: defaultTime.appointDate});
-            this._dealdb.updateDealgrab(null);
+            resolve(resp);
         });
     }
 
@@ -175,6 +255,7 @@ export class AppointmentPage{
         }
     }
 
+
     presentModal() {
         let modal = this.modalCtrl.create('thank-you');
         modal.present();
@@ -211,5 +292,102 @@ export class AppointmentPage{
                 this.createForm();
             })
             .catch(error => console.log(error));
+    }
+
+    /**
+     * Get all days apart from Friday, Saturday and Sunday
+     */
+    getAllAppointmentDays(){
+        function nextDay(date) {
+            return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
+        }
+
+        var current = new Date(),
+            year = current.getFullYear(),
+            nextMonth = current.getMonth()+1,
+            weekEndDate = current.getDate()+30;
+
+        while(current.getFullYear() === year && current.getMonth() <= nextMonth && current.getDate() <= weekEndDate)  {
+            if(current.getDay() != 5 && current.getDay() !=6 && current.getDay() != 0) {
+                this.dayValues.push(current.getDate().toLocaleString())
+            }
+            current = nextDay(current);
+        }
+    }
+
+    async doLogin(){
+        try{
+            this.afAuth.auth.signInWithEmailAndPassword(this.user.email, this.user.password).then(auth => {
+                this.afAuth.authState.subscribe( user => {
+                    this.currentUid = user.uid;
+                    this.currentEmail = user.email;
+                    this.currentUname = user.displayName;
+                });
+            }).catch(err => {
+                this.error =  err.message;
+            });
+
+        }
+        catch(e){
+            console.error(e);
+        }
+    }
+
+    async passwordReset(){
+        try{
+            let alert = this.alertCtrl.create({
+                title: 'Reset Password',
+                subTitle: 'An email with the password reset link will be sent to the email address you enter.',
+                inputs: [
+                    {
+                        name: 'email',
+                        placeholder: 'Email'
+                    }
+                ],
+                buttons: [
+                    {
+                        text: 'Dismiss'
+                    },
+                    {
+                        text: 'Submit',
+                        handler: resp => {
+                            if (!resp) {
+                                return;
+                            }
+
+                            this.afAuth.auth.sendPasswordResetEmail(resp.email).then(response => {
+                                let confirmAlert = this.alertCtrl.create({
+                                    title: 'Email Sent',
+                                    subTitle: 'Email has been successfully sent. Please click the link and reset your password.',
+                                    buttons: [{
+                                        text: 'Dismiss'
+                                    }]
+                                });
+
+                                confirmAlert.present();
+                            }).catch((err) => {
+                                alert.dismiss();
+                            });
+
+                        }
+                    }
+                ]
+            });
+
+            alert.present();
+        } catch(e){
+
+        }
+    }
+
+    doRegister(){
+        this.navCtrl.push('RegisterPage');
+    }
+
+    selectedServices($event): void {
+        this.serviceSelected.length = 0;
+        $event.forEach((service) => {
+           this.serviceSelected.push(service);
+        });
     }
 }

@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {HomePage} from "../home/home";
 import {LoginPage} from "../login/login";
-import {ServicedbService} from "../service/servicedb.service";
-import {DealsPage} from "../deals/deals";
+import { Events } from 'ionic-angular';
 import {AppointmentPage} from "../appointment/appointment";
+import {CheckinPage} from "../checkin/checkin";
+import {AngularFireAuth} from "angularfire2/auth";
+import {User} from "../../models/user";
 
 /**
  * Generated class for the TabsPage page.
@@ -25,20 +27,41 @@ export class TabsPage {
   tabTwo: any;
   tabThree: any;
   servicescats: any = [];
-
-  constructor(private _dbservice: ServicedbService) {
+  enable: boolean;
+  error : String;
+  user = {} as User;
+  constructor(public afAuth: AngularFireAuth,
+              public navCtrl: NavController,
+              public events: Events
+              ) {
     this.tabOne = HomePage;
-    this.tabTwo = LoginPage;
-    this.tabThree = DealsPage;
+    this.tabTwo = AppointmentPage;
+    this.tabThree = CheckinPage;
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad TabsPage');
-  }
 
   ngOnInit() {
-    this._dbservice.allcats().subscribe(res => {
-      this.servicescats = res;
-    });
+     this.enable = true;
   }
+
+    async doLogin() {
+        try {
+
+            this.afAuth.auth.signInWithEmailAndPassword(this.user.email, this.user.password).then(auth => {
+                this.navCtrl.push(LoginPage);
+            }).catch(err => {
+                this.error = err.message;
+            });
+
+        }
+        catch (e) {
+            console.error(e);
+        }
+    }
+
+    verifyWalkinDates() {
+        this.events.publish('walkin:created', Date.now());
+
+    }
+
 }

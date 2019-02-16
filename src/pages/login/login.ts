@@ -101,15 +101,6 @@ export class LoginPage {
         }
     }
 
-    async confirmPasswordReset(email){
-        try{
-            debugger;
-
-        } catch(e){
-            return false;
-        }
-    }
-
     doRegister(){
         this.navCtrl.push('RegisterPage');
     }

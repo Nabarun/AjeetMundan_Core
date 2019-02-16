@@ -15,30 +15,24 @@ import { ServicedbService } from "../pages/service/servicedb.service";
 import { PageService } from "../pages/page/page.service";
 import { PushService } from './push.service';
 import {HomePage} from "../pages/home/home";
-import {TabsPage} from "../pages/tabs/tabs";
 import {HomeSlider} from "../components/home-slider/home-slider.component";
 import {AppointmentPage} from "../pages/appointment/appointment";
 import {AppointmentService} from "../pages/appointment/appointment.service";
 import {DealsPage} from "../pages/deals/deals";
-import {ServicePage} from "../pages/service/service";
 import {ContactPage} from "../pages/contact/contact";
 import {ServiceModule} from "../pages/service/service.module";
 import {DealCard} from "../components/deal-card/deal-card.component";
 import {PageTitle} from "../components/page-title/page-title.component";
-import {Geolocation} from "@ionic-native/geolocation";
-import { GoogleMaps } from '@ionic-native/google-maps';
 import {LoginPage} from "../pages/login/login";
-import {GooglePlus} from "@ionic-native/google-plus";
 import {Page} from "../pages/page/page";
-import {Facebook} from "@ionic-native/facebook";
 import {GoogleLogoutComponent} from "../components/google-logout/google-logout";
-import {AppointmentModule} from "../pages/appointment/appointment.module";
 import {LogoutComponent} from "../components/logout/logout";
 import {HeaderLogo} from "../components/headerLogo/headerLogo";
 import { AuthProvider } from '../providers/auth/auth';
 import { FirebaseProvider } from '../providers/firebase/firebase';
 import { HttpProvider } from '../providers/http/http';
 import { HttpModule } from '@angular/http';
+import {CheckinPage} from "../pages/checkin/checkin";
 
 @NgModule({
 
@@ -54,7 +48,8 @@ import { HttpModule } from '@angular/http';
         PageTitle,
         LogoutComponent,
         HeaderLogo,
-        AppointmentPage
+        AppointmentPage,
+        CheckinPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, config),
@@ -76,7 +71,8 @@ import { HttpModule } from '@angular/http';
         DealsPage,
         LoginPage,
         Page,
-        ContactPage
+        ContactPage,
+        CheckinPage
     ],
     providers: [{
         provide: ErrorHandler,
@@ -91,8 +87,8 @@ import { HttpModule } from '@angular/http';
         AppointmentService,
         FirebaseProvider,
         AuthProvider,
-    FirebaseProvider,
-    HttpProvider
+        FirebaseProvider,
+        HttpProvider
     ]
 })
 export class AppModule {}

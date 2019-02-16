@@ -7,4 +7,6 @@ export interface Appointment {
     notes: string;
     status: string;
     endtime: string;
+
+    val();
 }
