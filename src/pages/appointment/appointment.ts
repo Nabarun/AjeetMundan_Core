@@ -5,7 +5,6 @@ import {
     IonicPage,
     MenuController,
     ModalController,
-    Navbar,
     NavController,
     Platform
 } from 'ionic-angular';
@@ -21,8 +20,7 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AuthService} from '../providers/auth.service';
 import {User} from "../../models/user";
 import {Appointment} from "./appointment.model";
-import {FirebaseListObservable} from "angularfire2/database";
-import {Service} from "../service/service.model";
+
 
 @IonicPage({
     name: 'appointment',
@@ -49,6 +47,7 @@ export class AppointmentPage{
     monthValues: string[];
     todaysAppt: Observable<Appointment[]>;
     serviceSelected: any;
+    hourValues: any;
 
     constructor(public fb: FormBuilder,
                 public modalCtrl: ModalController,
@@ -65,6 +64,8 @@ export class AppointmentPage{
 
         this.dayValues = new Array();
         this.monthValues = new Array();
+        this.hourValues = new Array(9, 10, 11, 12, 13, 14, 15, 16, 17, 18);
+
         this.currentEmail ="";
         this.currentUname="";
         this.serviceSelected = new Array();
@@ -72,10 +73,11 @@ export class AppointmentPage{
 
     ngOnInit() {
 
-        this.afAuth.authState.subscribe( user => {
+        /*this.afAuth.authState.subscribe( user => {
             if (user) {
                 this.currentUid = user.uid;
                 this.createForm();
+
                 this.deal.subscribe(res => {
                     if (res) {
                         this.appoForm.patchValue({
@@ -92,13 +94,35 @@ export class AppointmentPage{
             }else{
                 this.currentUid=null;
             }
-        });
+        });*/
     }
 
-    createForm() {
+    /*createForm() {
         const currentDate = new Date();
+        //If it is Tuesday then assign it to Wednesday as Tuesday is closed
+        //If it is a Friday or weekend get next Monday
+        if(currentDate.getDay() == 2){
+            currentDate.setDate(currentDate.getDate() + 1);
+        } else if(currentDate.getDay() == 5){
+            currentDate.setDate(currentDate.getDate() + 3);
+        } else if(currentDate.getDay() == 6){
+            currentDate.setDate(currentDate.getDate() + 2);
+        } else if(currentDate.getDay() == 0){
+            currentDate.setDate(currentDate.getDate() + 1);
+        }
+
+        let hours = 0;
+        let minutes = 0;
+
+        if(currentDate.getHours() > 18 || currentDate.getHours() < 9){
+            hours = 9;
+            minutes =0;
+        } else {
+            hours = currentDate.getHours();
+            minutes = currentDate.getMinutes();
+        }
         const defaultTime = {
-            appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
+            appointTime: `${this.paddedZero(hours)}:${this.paddedZero(minutes)}`,
             appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
         }
 
@@ -144,7 +168,9 @@ export class AppointmentPage{
         let bookingEndTime = new Date(this.fixStartDateTime(appForm.endtime, appForm.date));
         this.todaysAppt = this._db.showAppointmentForThisDate(startDate.toLocaleDateString());
         let appt = new Promise((resolve, reject) => {
-            if(startDate.getDay() != 5 && startDate.getDay() !=6 && startDate.getDay() != 0) {
+            //Tuesday : Closed
+            //Friday, Saturday and Sunday : Walkin
+            if(startDate.getDay() != 5 && startDate.getDay() !=6 && startDate.getDay() != 0 && startDate.getDay() != 2) {
                 this.todaysAppt.subscribe((appts) => {
                     appts = appts.reverse();
                     this.validateTimeSlot(appts, appForm.date, bookingStartTime, bookingEndTime).then((resp) => {
@@ -177,10 +203,10 @@ export class AppointmentPage{
                     this._dealdb.updateDealgrab(null);
                 });
             } else {
-                if(startDate.getDay() == 5 || startDate.getDay() ==6 || startDate.getDay() == 0){
+                if(startDate.getDay() == 5 || startDate.getDay() ==6 || startDate.getDay() == 0 || startDate.getDay() == 2){
                     const alert = this.alertCtrl.create({
                         title: 'Booking Appointment Disabled',
-                        subTitle: 'You cannot book appointment on Friday, Saturday and Sunday',
+                        subTitle: 'You cannot book appointment on Tuesday, Friday, Saturday and Sunday',
                         buttons: ['Ok']
                     });
                     alert.present();
@@ -294,9 +320,9 @@ export class AppointmentPage{
             .catch(error => console.log(error));
     }
 
-    /**
+    /!**
      * Get all days apart from Friday, Saturday and Sunday
-     */
+     *!/
     getAllAppointmentDays(){
         function nextDay(date) {
             return new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1);
@@ -308,7 +334,9 @@ export class AppointmentPage{
             weekEndDate = current.getDate()+30;
 
         while(current.getFullYear() === year && current.getMonth() <= nextMonth && current.getDate() <= weekEndDate)  {
-            if(current.getDay() != 5 && current.getDay() !=6 && current.getDay() != 0) {
+            //Tuesday : Closed
+            //Friday, Saturday and Sunday : Walkin
+            if(current.getDay() != 5 && current.getDay() !=6 && current.getDay() != 0 && current.getDay() != 2) {
                 this.dayValues.push(current.getDate().toLocaleString())
             }
             current = nextDay(current);
@@ -389,5 +417,5 @@ export class AppointmentPage{
         $event.forEach((service) => {
            this.serviceSelected.push(service);
         });
-    }
+    }*/
 }

@@ -53,7 +53,7 @@ export class CheckinPage implements OnInit{
 
             name: ['', Validators.required],
             phone: ['', Validators.required],
-            email: ['', Validators.compose([Validators.required, Validators.email])],
+            //email: ['', Validators.compose([Validators.required, Validators.email])],
             service: ['', Validators.required],
             appointTime: [defaultTime.appointTime],
             appointDate: [defaultTime.appointDate],
@@ -120,15 +120,15 @@ export class CheckinPage implements OnInit{
         appt.then((wait)=> {
             delete checkinForm.appointTime;
             delete checkinForm.appointDate;
-            if (wait > 0) {
-                 bookingStartTime.setMinutes(bookingStartTime.getMinutes() + Number(wait));
-                 bookingEndTime.setMinutes(bookingEndTime.getMinutes() + Number(wait))
+            if (wait[0] > 0) {
+                 bookingStartTime.setMinutes(bookingStartTime.getMinutes() + Number(wait[0]));
+                 bookingEndTime.setMinutes(bookingEndTime.getMinutes() + Number(wait[0]))
             }
 
             checkinForm.starttime = this.fixStartDateTime(bookingStartTime.toLocaleTimeString('en-GB'), checkinForm.date).toLocaleTimeString('en-GB');
             checkinForm.endtime = this.fixEndDateTime(bookingStartTime.toLocaleTimeString('en-GB'), checkinForm.date, checkinForm.service.length).toLocaleTimeString('en-GB');
 
-            this.waittime += wait.toString()+" min";
+            this.waittime += wait[0].toString()+" min";
 
             this._db.save(checkinForm).then((res) => {
                 this.presentModal();
@@ -161,6 +161,7 @@ export class CheckinPage implements OnInit{
         });
 
         return new Promise((resolve, reject) =>{
+            let persons = 0;
             let wait = 0;
             let diff = bookingEndTime.getTime() - bookingStartTime.getTime();
             for(let loop=0; loop< appts.length; loop++) {
@@ -170,22 +171,24 @@ export class CheckinPage implements OnInit{
                  if (bookingStartTime >= existingStartTime && bookingStartTime <= existingEndTime) {
                      wait += (existingEndTime.getTime() - bookingStartTime.getTime()) / 60000;
                      bookingStartTime = existingEndTime;
+                     persons++;
                      bookingEndTime = new Date(bookingStartTime.getTime() + diff);
                  } else if (bookingEndTime >= existingStartTime && bookingEndTime <= existingEndTime) {
                      let existingdiff = existingEndTime.getTime()-existingStartTime.getTime();
                      wait += ((existingStartTime.getTime() - bookingStartTime.getTime()) + existingdiff)/60000;
                      bookingStartTime = existingEndTime;
-
+                     persons++;
                      bookingEndTime = new Date(bookingStartTime.getTime() + diff);
                  } else if (bookingStartTime <= existingStartTime && bookingEndTime >= existingEndTime) {
                      let existingdiff = existingEndTime.getTime()-existingStartTime.getTime();
                      wait += ((existingStartTime.getTime() - bookingStartTime.getTime())+existingdiff) / 60000;
+                     persons++;
                      bookingStartTime = existingEndTime;
                      bookingEndTime = new Date(bookingStartTime.getTime() + diff);
                  }
             }
 
-            resolve(wait);
+            resolve([wait, persons]);
         });
     }
 
@@ -216,14 +219,14 @@ export class CheckinPage implements OnInit{
 
     formSubmit(value: any, valid): void {
         if (valid ) {
-            let wait = "0 min";
+            let persons = "0";
             //this.saveFormData(value);
             this.setWaitTime(value).then((waittime) => {
-                if(waittime > 0){
-                    wait = waittime + " min";
+                if(waittime[0] > 0){
+                    persons = waittime[1];
                 }
 
-                this.showWaitTime(wait, value);
+                this.showWaitTime(persons, value);
             });
 
         } else {
@@ -274,13 +277,14 @@ export class CheckinPage implements OnInit{
         alert.present();
     }
 
-    showWaitTime(waitTime: string, value: any) {
+    showWaitTime(persons: string, value: any) {
         const alert = this.alertCtrl.create({
-            title: 'Current wait time',
-            subTitle: waitTime,
+            //title: 'You are after '+ persons+' customer/s', // This was tracking the number of people prior in the queue, Ajeet wanted to hide it
+            title: 'Reminder call',
+            subTitle: 'A reminder call will be made 15 min prior to your appointment, you are requested to come 5 min prior to the appointment. Failure in doing so will cancel your appointment',
             buttons: ['Cancel',
                 {
-                    text: 'Check In',
+                    text: 'Ok',
                     handler: () => {
                         this.saveFormData(value);
                     }
