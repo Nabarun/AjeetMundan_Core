@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {Appointment} from "../appointment/appointment.model";
 import {AppointmentService} from "../appointment/appointment.service";
 import {ServicedbService} from "../service/servicedb.service";
+import {CheckinService} from "./checkin.service";
 
 /**
  * Generated class for the Checkin  page.
@@ -25,16 +26,17 @@ export class CheckinPage implements OnInit{
     services: any = this._dbservice.all();
     todaysAppt: Observable<Appointment[]>;
     serviceSelected: any;
-    activate: boolean;
+    activate: any;
     constructor(public fb: FormBuilder,
                 public navCtrl: NavController,
                 public modalCtrl: ModalController,
                 private _db: AppointmentService,
                 private _dbservice: ServicedbService,
+                private _dbcheckin: CheckinService,
                 public alertCtrl: AlertController,
                 public events: Events) {
         this.serviceSelected = new Array();
-        this.activate =true;
+        this.activate = false;
     }
 
 
@@ -68,7 +70,10 @@ export class CheckinPage implements OnInit{
         this.events.subscribe('walkin:created', (time) => {
             let date = new Date(time);
             if(date.getDay() == 5 || date.getDay() == 6 || date.getDay() == 0){
-                this.activate = true;
+                this.getWalkinStatus().then((disable) => {
+                    this.activate = !disable;
+                });
+
             } else {
                 this.activate = false
             }
@@ -299,5 +304,19 @@ export class CheckinPage implements OnInit{
         $event.forEach((service) => {
             this.serviceSelected.push(service);
         });
+    }
+
+    async getWalkinStatus(){
+        return new Promise((resolve, reject) => {
+            this._dbcheckin.getWalkinStatus(new Date().toLocaleDateString()).subscribe(res => {
+                if(res && res[0]){
+                    resolve(res[0].checkinstatus);
+                } else {
+                    resolve(false);
+                }
+            });
+        });
+
+
     }
 }

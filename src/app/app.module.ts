@@ -33,6 +33,9 @@ import { FirebaseProvider } from '../providers/firebase/firebase';
 import { HttpProvider } from '../providers/http/http';
 import { HttpModule } from '@angular/http';
 import {CheckinPage} from "../pages/checkin/checkin";
+import {AdminPage} from "../pages/admin/admin";
+import {AdminService} from "../pages/admin/admin.service";
+import {CheckinService} from "../pages/checkin/checkin.service";
 
 @NgModule({
 
@@ -49,7 +52,8 @@ import {CheckinPage} from "../pages/checkin/checkin";
         LogoutComponent,
         HeaderLogo,
         AppointmentPage,
-        CheckinPage
+        CheckinPage,
+        AdminPage
     ],
     imports: [
         IonicModule.forRoot(MyApp, config),
@@ -72,7 +76,8 @@ import {CheckinPage} from "../pages/checkin/checkin";
         LoginPage,
         Page,
         ContactPage,
-        CheckinPage
+        CheckinPage,
+        AdminPage
     ],
     providers: [{
         provide: ErrorHandler,
@@ -88,7 +93,9 @@ import {CheckinPage} from "../pages/checkin/checkin";
         FirebaseProvider,
         AuthProvider,
         FirebaseProvider,
-        HttpProvider
+        HttpProvider,
+        AdminService,
+        CheckinService
     ]
 })
 export class AppModule {}

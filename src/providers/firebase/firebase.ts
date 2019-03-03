@@ -23,4 +23,5 @@ export class FirebaseProvider {
         this.afd.list('/users/').push(user);
     }
 
+
 }

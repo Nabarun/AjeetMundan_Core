@@ -1,10 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<script src="http://maps.google.com/maps/api/js?key=YOUR_API_KEY_HERE"></script>
+<script src="cordova.js"></script>
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{title|uppercase}}</ion-title>
+        <button ion-button menuToggle style="color: #d58512">
+            <ion-icon name="menu"></ion-icon>
+        </button>
+    </ion-navbar>
+</ion-header>
+<ion-content padding justify-content-center align-items-center text-center>
 
-</body>
-</html>
+    <div *ngIf="currentUid;else login">
+
+        <ion-note item-right>Todays appointment. To make a call click on the phone.</ion-note>
+        <ion-grid>
+            <ion-row class="header">
+                <div class="col">Start Time</div>
+                <div class="col">Name</div>
+                <div class="col">Phone</div>
+            </ion-row>
+            <ion-row *ngFor="let appt of (todaysAppt | async); let j=index;">
+                <div class="col">{{appt.starttime}}</div>
+                <div class="col">{{appt.name}}</div>
+                <div class="col"> <a href="tel:+1-{{appt.phone}}" class="button button-positive">{{appt.phone}}</a></div>
+            </ion-row>
+        </ion-grid>
+        <button ion-button color="secondary" round (click)="disableWalkin()" [disabled]="disable">Disable walkin</button>
+
+    </div>
+    <ng-template #login>
+            <ion-grid>
+                <img src="assets/images/home/logo1.png" alt="logo" class="center">
+                <ion-row justify-content-center align-items-center text-center>
+                    <ion-list inset>
+                        <ion-item>
+                            <ion-label floating>Email</ion-label>
+                            <ion-input type="text" [(ngModel)]="user.email" full></ion-input>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label floating>Password</ion-label>
+                            <ion-input type="password" [(ngModel)]="user.password"></ion-input>
+                        </ion-item>
+
+                        <ion-grid>
+                            <ion-row justify-content-center align-items-center>
+                                <div ion-text *ngIf="error" color="danger">{{error}}</div>
+                            </ion-row>
+                            <ion-row justify-content-center align-items-center>
+                                <button ion-button color="secondary" round (click)="doLogin()">Sign In</button>
+                            </ion-row>
+                            <ion-row justify-content-center align-items-center>
+                                <button ion-button color="secondary" round (click)="passwordReset()">Forgot Password</button>
+                            </ion-row>
+                        </ion-grid>
+                    </ion-list>
+                    <ion-note item-right>Please use your admin user and password.</ion-note>
+                </ion-row>
+            </ion-grid>
+        </ng-template>
+
+
+
+</ion-content>

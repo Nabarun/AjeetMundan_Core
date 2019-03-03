@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import {Appointment} from "../appointment/appointment.model";
+import {Checkin} from "../../models/checkin";
 
 
 
@@ -31,4 +32,13 @@ export class CheckinService {
         });
     }
 
+    getWalkinStatus(date: string): FirebaseListObservable<Checkin[]>{
+
+        return this.af.list('checkin', {
+            query: {
+                orderByChild: 'date',
+                equalTo: date
+            }
+        });
+    }
 }

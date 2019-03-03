@@ -15,6 +15,7 @@ import {LoginPage} from "../pages/login/login";
 import {Page} from "../pages/page/page";
 import {HomePage} from "../pages/home/home";
 import {AngularFireAuth} from "angularfire2/auth";
+import {AdminPage} from "../pages/admin/admin";
 
 @Component({
   templateUrl: 'app.html',
@@ -25,8 +26,6 @@ export class MyApp {
 
   rootPage: any = 'tabs';
   pages: Array<{ title: string, component: any, icon: string, id?: string }>;
-  activeMenu: string;
-  currentMenu: string;
   pageList: Array<PageModel>;
   currentUid: any;
 
@@ -45,7 +44,8 @@ export class MyApp {
       { title: 'Deals/Offers', component: DealsPage, icon: "std-icon-perfume" },
       { title: 'ServicePage', component: ServicePage, icon: "std-icon-menu" },
       { title: 'Contact', component: ContactPage, icon: "std-icon-hairdresser-chair" },
-      { title: 'About', component: Page, icon: "std-icon-male-hair" }
+      { title: 'About', component: Page, icon: "std-icon-male-hair" },
+      { title: 'Admin', component: AdminPage, icon: "std-icon-hairdresser-chair-1" }
     ];
 
     if(this.platform.is('cordova')) {
@@ -77,6 +77,7 @@ export class MyApp {
   }
   openStaticPage(page) {
     this.menu.close();
-    this.nav.push('page', { id: page })
+    this.nav.push('page', { id: page });
   }
 }
+
