@@ -25,8 +25,7 @@
                 <div class="col"> <a href="tel:+1-{{appt.phone}}" class="button button-positive">{{appt.phone}}</a></div>
             </ion-row>
         </ion-grid>
-        <button ion-button color="secondary" round (click)="disableWalkin()" [disabled]="disable">Disable walkin</button>
-
+        <button ion-button color="secondary" round (click)="disableWalkin()">{{buttonLabel}}</button>
     </div>
     <ng-template #login>
             <ion-grid>

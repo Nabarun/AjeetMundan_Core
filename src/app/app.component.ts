@@ -38,19 +38,19 @@ export class MyApp {
     private pushservice: PushService,
     private afAuth: AngularFireAuth,
   ) {
-    this.initializeApp();
+      this.initializeApp();
 
-    this.pages = [
-      { title: 'Deals/Offers', component: DealsPage, icon: "std-icon-perfume" },
-      { title: 'ServicePage', component: ServicePage, icon: "std-icon-menu" },
-      { title: 'Contact', component: ContactPage, icon: "std-icon-hairdresser-chair" },
-      { title: 'About', component: Page, icon: "std-icon-male-hair" },
-      { title: 'Admin', component: AdminPage, icon: "std-icon-hairdresser-chair-1" }
-    ];
+      this.pages = [
+          {title: 'ServicePage', component: ServicePage, icon: "std-icon-menu"},
+          {title: 'Contact', component: ContactPage, icon: "std-icon-hairdresser-chair"},
+          {title: 'About', component: Page, icon: "std-icon-male-hair"},
+          {title: 'Deals/Offers', component: DealsPage, icon: "std-icon-perfume"},
+          {title: 'Admin', component: AdminPage, icon: "std-icon-hairdresser-chair-1"}
+      ];
 
-    if(this.platform.is('cordova')) {
-      this.pushservice.pushInt();
-    }
+      if (this.platform.is('cordova')) {
+          this.pushservice.pushInt();
+      }
   }
 
   initializeApp() {

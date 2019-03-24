@@ -41,8 +41,7 @@ export class AdminService {
     }
 
     updateCheckin(key: string, status: boolean){
-
-        this.af.object('/checkin/'+key).update({checkinstatus: status});
+        this.af.object('/checkin/'+key).update({'checkinstatus': status});
     }
 
     getWalkinStatus(date: string): FirebaseListObservable<Checkin[]>{
@@ -54,5 +53,6 @@ export class AdminService {
             }
         });
     }
+
 
 }

@@ -1,6 +1,6 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler, Keyboard} from 'ionic-angular';
 import { AngularFireModule } from 'angularfire2';
 import { Push } from '@ionic-native/push';
 import { Device } from '@ionic-native/device';
@@ -36,6 +36,7 @@ import {CheckinPage} from "../pages/checkin/checkin";
 import {AdminPage} from "../pages/admin/admin";
 import {AdminService} from "../pages/admin/admin.service";
 import {CheckinService} from "../pages/checkin/checkin.service";
+
 
 @NgModule({
 
@@ -95,7 +96,8 @@ import {CheckinService} from "../pages/checkin/checkin.service";
         FirebaseProvider,
         HttpProvider,
         AdminService,
-        CheckinService
+        CheckinService,
+        Keyboard
     ]
 })
 export class AppModule {}

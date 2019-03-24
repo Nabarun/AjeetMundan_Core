@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import {IonicPage, Keyboard} from 'ionic-angular';
 
 import { ServicedbService } from '../service/servicedb.service'
 
@@ -15,8 +15,10 @@ export class HomePage {
 
   servicescats: any = [];
 
-  constructor(private _dbservice: ServicedbService) {
-
+  constructor(private _dbservice: ServicedbService, public keyboard : Keyboard) {
+    if(this.keyboard.isOpen()){
+      this.keyboard.close();
+    }
   }
 
   ngOnInit() {

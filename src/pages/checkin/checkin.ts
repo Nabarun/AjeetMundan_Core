@@ -27,6 +27,7 @@ export class CheckinPage implements OnInit{
     todaysAppt: Observable<Appointment[]>;
     serviceSelected: any;
     activate: any;
+    title: string;
     constructor(public fb: FormBuilder,
                 public navCtrl: NavController,
                 public modalCtrl: ModalController,
@@ -37,6 +38,7 @@ export class CheckinPage implements OnInit{
                 public events: Events) {
         this.serviceSelected = new Array();
         this.activate = false;
+        this.title = "Walkin Now";
     }
 
 
@@ -55,7 +57,6 @@ export class CheckinPage implements OnInit{
 
             name: ['', Validators.required],
             phone: ['', Validators.required],
-            //email: ['', Validators.compose([Validators.required, Validators.email])],
             service: ['', Validators.required],
             appointTime: [defaultTime.appointTime],
             appointDate: [defaultTime.appointDate],
@@ -69,14 +70,17 @@ export class CheckinPage implements OnInit{
     async activateCheckin() {
         this.events.subscribe('walkin:created', (time) => {
             let date = new Date(time);
-            if(date.getDay() == 5 || date.getDay() == 6 || date.getDay() == 0){
-                this.getWalkinStatus().then((disable) => {
-                    this.activate = !disable;
-                });
+            if(date.getDay() == 5 || date.getDay() == 6 || date.getDay() == 0 ){
+                if(date.getHours()>=9 && date.getHours()<=17) {
+                    this.getWalkinStatus().then((disable) => {
+                        this.activate = !disable;
+                    });
+                }
 
             } else {
                 this.activate = false
             }
+
 
         });
     }
@@ -134,25 +138,42 @@ export class CheckinPage implements OnInit{
             checkinForm.endtime = this.fixEndDateTime(bookingStartTime.toLocaleTimeString('en-GB'), checkinForm.date, checkinForm.service.length).toLocaleTimeString('en-GB');
 
             this.waittime += wait[0].toString()+" min";
+            this.getWalkinStatus().then(disableStatus => {
+                if(!disableStatus) {
+                    if(date.getDay() == 5 || date.getDay() == 6 || date.getDay() == 0 ) {
+                        if (date.getHours() >= 9 && date.getHours() <= 17) {
+                            this._db.save(checkinForm).then((res) => {
+                                this.presentModal();
 
-            this._db.save(checkinForm).then((res) => {
-                this.presentModal();
+                                const currentDate = new Date();
+                                const defaultTime = {
+                                    appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
+                                    appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
+                                }
 
-                const currentDate = new Date();
-                const defaultTime = {
-                    appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
-                    appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
+                                this.checkinForm.reset({
+                                    appointTime: defaultTime.appointTime,
+                                    appointDate: defaultTime.appointDate
+                                });
+
+                            });
+                        }
+                    }
+                } else {
+                    const alert = this.alertCtrl.create({
+                        //title: 'You are after '+ persons+' customer/s', // This was tracking the number of people prior in the queue, Ajeet wanted to hide it
+                        title: 'Walkin Disabled',
+                        subTitle: 'This feature has been disabled by Admin.',
+                        buttons: ['Cancel',
+                            {
+                                text: 'Ok',
+                            }]
+                    });
+                    alert.present();
                 }
-
-                this.checkinForm.reset({appointTime: defaultTime.appointTime, appointDate: defaultTime.appointDate});
-                //this._dealdb.updateDealgrab(null);
             });
 
-
         });
-        /**/
-
-
     }
 
     getwaitTime(appts: any, date: string, bookingStartTime: Date, bookingEndTime: Date){

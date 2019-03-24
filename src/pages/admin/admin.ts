@@ -61,43 +61,34 @@ export class AdminPage{
             this.title = "Todays appt";
             this.userId = 'nWkoeXvkdzfUW8jLp2baOf9h16i2';
             this.disable = false;
-
+            this.buttonLabel = "Disable Walkin";
+            this.getAllAppointments();
     }
 
     ngOnInit() {
-        debugger;
         this.getWalkinStatus().then((res) => {
             this.disable = res;
+            if(this.disable){
+                this.buttonLabel = "Enable Walkin";
+            } else {
+                this.buttonLabel = "Disable Walkin";
+            }
+
         });
         this.afAuth.authState.subscribe( user => {
             //TODO Store in some secret store
             if (user && user.uid == this.userId) {
                 this.userObj = user;
                 this.currentUid = user.uid;
-
+                this.getAllAppointments();
                 if (this.pushservice.uuid) {
                     this.appoForm.controls['uid'].patchValue(this.pushservice.uuid);
                 }
-
-                this.getAllAppointments();
             } else {
                 this.currentUid=null;
             }
         });
 
-        /*this.events.subscribe('checkin:disabled', (status) => {
-            // user and time are the same arguments passed in `events.publish(user, time)`
-            console.log('Welcome', status);
-
-            this.enabledisableWalkin().then((res) =>{
-                this.disable = res;
-                if(res){
-                    this.buttonLabel ="Enable Walkin";
-                }else{
-                    this.buttonLabel = "Disable Walkin";
-                }
-            })
-        });*/
     }
 
     showErrorAlert(msg: string) {
@@ -214,37 +205,48 @@ export class AdminPage{
         this.todaysAppt =this._db.showAppointmentForThisDate(startDate.toLocaleDateString());
     }
 
-    async fireDisableEnable(status){
-        this.events.publish('checkin:disabled', status)
-
-    }
-
     async disableWalkin() {
-        this._db.getWalkinStatus(new Date().toLocaleDateString()).subscribe(res => {
-            if(res){
-                if(res[0]) {
-                    this._db.updateCheckin(res[0].$key, true);
-                    this.disable = true;
-                }else{
-                    this._db.insertCheckin(new Date().toLocaleDateString(), false);
-                }
+        this.getWalkinStatus().then(res => {
+            this.disable = !res;
+
+            if(this.disable){
+                this.buttonLabel = "Enable Walkin";
+            } else {
+                this.buttonLabel = "Disable Walkin";
             }
+
+            this.getWalkinObject().then(resObj => {
+                if(resObj != null){
+                    this._db.updateCheckin(resObj.toString(), this.disable);
+                }
+            });
         });
+
     }
 
 
     async getWalkinStatus(){
-
         return new Promise((resolve, reject) => {
             this._db.getWalkinStatus(new Date().toLocaleDateString()).subscribe(res => {
                 if(res && res[0]){
                     resolve(res[0].checkinstatus);
                 } else {
+                    this._db.insertCheckin(new Date().toLocaleDateString(), false);
                     resolve(false);
                 }
             });
         });
+    }
 
-
+    async getWalkinObject(){
+        return new Promise((resolve, reject) => {
+            this._db.getWalkinStatus(new Date().toLocaleDateString()).subscribe(res => {
+                if(res && res[0]){
+                    resolve(res[0].$key);
+                } else {
+                    resolve(null);
+                }
+            });
+        });
     }
 }

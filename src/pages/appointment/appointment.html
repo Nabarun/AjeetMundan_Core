@@ -7,21 +7,17 @@
     </button>
   </ion-navbar>
 </ion-header>
-<ion-content center text-center>
+<ion-content text-center>
 
-  <ion-grid class="vertical-align-content">
+  <ion-note item-right>To book an appointment with Ajeet Mundan fill up the following details</ion-note>
+  <div style="width:100%;height:100%;overflow:scroll !important;-webkit-overflow-scrolling:touch !important">
+    <iframe style="width:100%;height:90%" src="http://ajeetpal.appointy.com/?isGadget=1" scrolling="yes">
+        <ion-input #hiddenInput type="text" style="width:0;height:0;padding:0;margin:0;opacity:0;"></ion-input>
+    </iframe>
+  </div>
 
-    <ion-row justify-content-center align-items-center>
-
-      <ion-col center>
-
-        <div>
-          <div>
            <!-- <div *ngIf="currentUid;else login">-->
-              <ion-note item-right>To book an appointment with Ajeet Mundan fill up the following details</ion-note>
-              <div style="overflow:auto;-webkit-overflow-scrolling:touch">
-                <iframe style="width:100%;height:600px" src="http://ajeetpal.appointy.com/?isGadget=1"></iframe>
-              </div>
+
               <!--<form class="form" name="appo-form"
                     [formGroup]="appoForm"
                     (ngSubmit)="formSubmit(appoForm.value,appoForm.valid )"
@@ -93,7 +89,7 @@
                   <ion-icon class="std-icon-hairdresser-chair"></ion-icon> Book appointment
                 </button>
               </form>-->
-            </div>
+
             <!--<ng-template #login>
               <ion-grid>
                 <img src="assets/images/home/logo1.png" alt="logo" class="center">
@@ -135,9 +131,8 @@
               </ion-grid>
             </ng-template>
           </div>-->
-        </div>
-        <deal-card [deal]="singleDeal" [canGrab]="false" *ngIf="singleDeal"></deal-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-footer [hidden]="!keyboard.isOpen()" no-border padding>
+    <button ion-button color="secondary" outline round (click)="closeKeyboard()">Hide Keyboard</button>
+  </ion-footer>
+
 </ion-content>

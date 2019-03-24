@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, ElementRef, ViewChild} from '@angular/core';
 import {
     AlertController,
     Events,
@@ -8,20 +8,16 @@ import {
     NavController,
     Platform
 } from 'ionic-angular';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from "rxjs/Observable";
 
 import {AppointmentService} from './appointment.service';
 import {ServicedbService} from '../service/servicedb.service';
 import {DealsService} from '../deals/deals.service';
 import {Deals} from "../deals/deals.model";
-import {PushService} from '../../app/push.service';
-import {AngularFireAuth} from 'angularfire2/auth';
 import {AuthService} from '../providers/auth.service';
 import {User} from "../../models/user";
 import {Appointment} from "./appointment.model";
-
-
+import { Keyboard } from 'ionic-angular';
 @IonicPage({
     name: 'appointment',
     defaultHistory: ['home']
@@ -34,7 +30,6 @@ export class AppointmentPage{
     error: string;
     callback: () => void;
     gplus: any;
-    appoForm: FormGroup;
     services: any = this._dbservice.all();
     deal: Observable<Deals> = this._dealdb.dealgrab$;
     singleDeal: Deals;
@@ -49,18 +44,17 @@ export class AppointmentPage{
     serviceSelected: any;
     hourValues: any;
 
-    constructor(public fb: FormBuilder,
+
+    constructor(
                 public modalCtrl: ModalController,
                 public menuCtrl: MenuController,
                 private _db: AppointmentService,
                 private _dbservice: ServicedbService,
                 private _dealdb: DealsService,
                 public alertCtrl: AlertController,
-                private pushservice: PushService,
-                private afAuth: AngularFireAuth,
-                private platform: Platform,
                 public navCtrl: NavController,
-                public events: Events) {
+                public events: Events,
+                private keyboard: Keyboard) {
 
         this.dayValues = new Array();
         this.monthValues = new Array();
@@ -418,4 +412,8 @@ export class AppointmentPage{
            this.serviceSelected.push(service);
         });
     }*/
+
+    public closeKeyboard() {
+        alert("keyboard open");
+    }
 }
