@@ -139,31 +139,53 @@ export class CheckinPage implements OnInit{
 
             this.waittime += wait[0].toString()+" min";
             this.getWalkinStatus().then(disableStatus => {
-                if(!disableStatus) {
                     if(date.getDay() == 5 || date.getDay() == 6 || date.getDay() == 0 ) {
                         if (date.getHours() >= 9 && date.getHours() <= 17) {
-                            this._db.save(checkinForm).then((res) => {
-                                this.presentModal();
+                            if (!disableStatus) {
+                                this._db.save(checkinForm).then((res) => {
+                                    this.presentModal();
 
-                                const currentDate = new Date();
-                                const defaultTime = {
-                                    appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
-                                    appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
-                                }
+                                    const currentDate = new Date();
+                                    const defaultTime = {
+                                        appointTime: `${this.paddedZero(currentDate.getHours())}:${this.paddedZero(currentDate.getMinutes())}`,
+                                        appointDate: `${currentDate.getFullYear()}-${this.paddedZero(currentDate.getUTCMonth() + 1)}-${this.paddedZero(currentDate.getDate())}`
+                                    }
 
-                                this.checkinForm.reset({
-                                    appointTime: defaultTime.appointTime,
-                                    appointDate: defaultTime.appointDate
+                                    this.checkinForm.reset({
+                                        appointTime: defaultTime.appointTime,
+                                        appointDate: defaultTime.appointDate
+                                    });
                                 });
-
+                            }else {
+                                const alert = this.alertCtrl.create({
+                                    //title: 'You are after '+ persons+' customer/s', // This was tracking the number of people prior in the queue, Ajeet wanted to hide it
+                                    title: 'Walkin Disabled',
+                                    subTitle: 'This feature has been disabled by Admin.',
+                                    buttons: ['Cancel',
+                                        {
+                                            text: 'Ok',
+                                        }]
+                                });
+                                alert.present();
+                            }
+                        } else {
+                            const alert = this.alertCtrl.create({
+                                //title: 'You are after '+ persons+' customer/s', // This was tracking the number of people prior in the queue, Ajeet wanted to hide it
+                                title: 'Walkin Disabled',
+                                subTitle: 'Walking is enabled on Friday, Saturday and Sunday from 9am - 6pm',
+                                buttons: ['Cancel',
+                                    {
+                                        text: 'Ok',
+                                    }]
                             });
+                            alert.present();
                         }
-                    }
+
                 } else {
                     const alert = this.alertCtrl.create({
                         //title: 'You are after '+ persons+' customer/s', // This was tracking the number of people prior in the queue, Ajeet wanted to hide it
                         title: 'Walkin Disabled',
-                        subTitle: 'This feature has been disabled by Admin.',
+                        subTitle: 'Walking is enabled on Friday, Saturday and Sunday from 9am - 6pm',
                         buttons: ['Cancel',
                             {
                                 text: 'Ok',
@@ -304,19 +326,7 @@ export class CheckinPage implements OnInit{
     }
 
     showWaitTime(persons: string, value: any) {
-        const alert = this.alertCtrl.create({
-            //title: 'You are after '+ persons+' customer/s', // This was tracking the number of people prior in the queue, Ajeet wanted to hide it
-            title: 'Reminder call',
-            subTitle: 'A reminder call will be made 15 min prior to your appointment, you are requested to come 5 min prior to the appointment. Failure in doing so will cancel your appointment',
-            buttons: ['Cancel',
-                {
-                    text: 'Ok',
-                    handler: () => {
-                        this.saveFormData(value);
-                    }
-                }]
-        });
-        alert.present();
+        this.saveFormData(value);
     }
 
 
