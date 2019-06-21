@@ -36,8 +36,7 @@ import {CheckinPage} from "../pages/checkin/checkin";
 import {AdminPage} from "../pages/admin/admin";
 import {AdminService} from "../pages/admin/admin.service";
 import {CheckinService} from "../pages/checkin/checkin.service";
-
-
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 @NgModule({
 
     declarations: [
@@ -97,7 +96,8 @@ import {CheckinService} from "../pages/checkin/checkin.service";
         HttpProvider,
         AdminService,
         CheckinService,
-        Keyboard
+        Keyboard,
+        InAppBrowser
     ]
 })
 export class AppModule {}
